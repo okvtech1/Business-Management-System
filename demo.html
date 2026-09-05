@@ -1,0 +1,1935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Demo — OKV Business Management System</title>
+<meta name="description" content="Try OKV Business Management System with sample data — explore sales, inventory, reports and more before you sign up. No account needed.">
+<link rel="canonical" href="https://YOUR-DOMAIN-HERE.com/demo.html">
+<meta property="og:title" content="Live Demo — OKV Business Management System">
+<meta property="og:description" content="Try OKV Business Management System with sample data before you sign up. No account needed.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://YOUR-DOMAIN-HERE.com/demo.html">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#16223d">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css';">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css';">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script>if (typeof Chart === 'undefined') { document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"><\/script>'); }</script>
+<script>if (typeof Chart === 'undefined') { document.write('<script src="https://unpkg.com/chart.js@4.4.3/dist/chart.umd.min.js"><\/script>'); }</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js';"></script>
+<style>
+:root{
+  --navy:#16223d; --navy-2:#1e2f52; --gold:#c69a3d; --gold-soft:#e9d4a3;
+  --paper:#f6f4ee; --ink:#25272b; --line:#e3ddce; --green:#2f6d4f; --red:#a4372f;
+}
+*{box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);margin:0}
+h1,h2,h3,h4,h5,.brand,.section-title{font-family:'Fraunces',serif}
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+a{color:var(--navy-2)}
+#sidebar{width:260px;min-height:100vh;background:var(--navy);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;border-right:3px solid var(--gold);z-index:1030}
+#sidebar .brand{color:#fff;font-size:1rem;font-weight:700;padding:1.1rem 1.25rem .4rem;display:flex;align-items:center;gap:.5rem;line-height:1.25}
+#sidebar .brand .bi{color:var(--gold);flex:none}
+#sidebar .biz-tag{color:var(--gold-soft);font-size:.72rem;padding:0 1.25rem 1rem;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#sidebar .nav-link{color:#c9d1e0;padding:.55rem 1.25rem;font-size:.89rem;border-left:3px solid transparent;display:flex;align-items:center;gap:.6rem;cursor:pointer}
+#sidebar .nav-link .bi{width:18px;text-align:center;color:var(--gold-soft)}
+#sidebar .nav-link:hover{background:var(--navy-2);color:#fff}
+#sidebar .nav-link.active{background:var(--navy-2);color:#fff;border-left-color:var(--gold);font-weight:600}
+#sidebar .nav-section-label{color:#7e8bab;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;padding:.85rem 1.25rem .2rem}
+#sidebar .sidebar-footer{padding:.9rem 1.25rem;color:#7e8bab;font-size:.68rem;border-top:1px solid rgba(255,255,255,.1);margin-top:1rem;line-height:1.5}
+#main{margin-left:260px;padding:1.4rem 1.6rem 3rem;min-height:100vh}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:10px;padding:.65rem 1rem;margin-bottom:1.2rem}
+.section-title{font-size:1.4rem;font-weight:600;margin-bottom:.15rem;display:flex;align-items:center;gap:.5rem}
+.section-sub{color:#7a7565;font-size:.86rem;margin-bottom:1.1rem}
+.card{border:1px solid var(--line);border-radius:12px}
+.stat-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:1rem 1.15rem;position:relative;overflow:hidden;min-width:0}
+.stat-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+.stat-card .stat-label{font-size:.74rem;text-transform:uppercase;letter-spacing:.05em;color:#8a8570}
+.stat-card .stat-value{font-size:clamp(1.05rem,3.6vw,1.45rem);font-weight:700;margin-top:.15rem}
+.stat-card .stat-note{font-size:.76rem;color:#9a9580;margin-top:.2rem}
+.table thead th{background:var(--navy);color:#fff;font-size:.74rem;text-transform:uppercase;letter-spacing:.03em;font-weight:600;border:none;vertical-align:middle;white-space:nowrap}
+.table td{vertical-align:middle;font-size:.88rem}
+.table-hover tbody tr:hover{background:#faf7ee}
+.section-panel{display:none}
+.section-panel.active{display:block}
+.badge-status{font-size:.7rem;padding:.35em .6em;font-weight:600}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn-gold:hover{background:#b3872f;border-color:#b3872f;color:#fff}
+.btn-navy{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn-navy:hover{background:var(--navy-2);border-color:var(--navy-2);color:#fff}
+.low-stock-row{background:#fdf2ef !important}
+.ledger-rule{border-top:2px double var(--line);margin:1rem 0}
+.form-label{font-size:.84rem;font-weight:600;color:#4a4636}
+.modal-header{background:var(--navy);color:#fff;border-radius:.5rem .5rem 0 0}
+.modal-header .btn-close{filter:invert(1)}
+.search-box{max-width:260px}
+.card-header-line{border-bottom:2px solid var(--gold);font-weight:700;background:#fff;display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#3fbf6f;margin-right:.4rem;box-shadow:0 0 0 rgba(63,191,111,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,191,111,.55)}70%{box-shadow:0 0 0 7px rgba(63,191,111,0)}100%{box-shadow:0 0 0 0 rgba(63,191,111,0)}}
+.activity-item{display:flex;align-items:flex-start;gap:.7rem;padding:.55rem 0;border-bottom:1px dashed var(--line)}
+.activity-item:last-child{border-bottom:none}
+.activity-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none;font-size:.9rem}
+.nav-pills-sm .nav-link{font-size:.8rem;padding:.35rem .8rem;color:#4a4636;border-radius:20px}
+.nav-pills-sm .nav-link.active{background:var(--navy);color:#fff}
+.receipt-box{font-family:'Inter',monospace;max-width:420px;margin:0 auto;border:1px solid #ddd;padding:1.25rem}
+.receipt-box h5{font-family:'Fraunces',serif}
+#printArea{display:none}
+@media print{ body *{visibility:hidden} #printArea, #printArea *{visibility:visible} #printArea{display:block;position:absolute;top:0;left:0;width:100%} }
+.chart-box{position:relative;width:100%;height:220px}
+.chart-box canvas{position:absolute;top:0;left:0;width:100%!important;height:100%!important}
+@media (max-width:991px){ #sidebar{transform:translateX(-100%);transition:transform .2s} #sidebar.show{transform:translateX(0)} #main{margin-left:0} }
+@media (max-width:576px){ .section-title{font-size:1.15rem} .stat-card .stat-value{font-size:1.02rem} table.table{font-size:.8rem} }
+.card, .stat-card, .activity-item{overflow-wrap:break-word;min-width:0}
+.table-responsive table td, .table-responsive table th{white-space:nowrap}
+/* Redundant safety net: Bootstrap itself supplies this, but if its CDN ever fails
+   (both fallbacks), tables would blow out page width on mobile instead of scrolling
+   within their own container. Harmless no-op when Bootstrap loads normally. */
+.table-responsive{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+.table-scroll table{min-width:520px}
+/* Used by the older ported tabs (Team/Subscription) that predate the Bootstrap
+   .table-responsive convention — dropped during the reskin, restored here so
+   those tables scroll within their own box instead of overflowing the page. */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px;padding:0 4px}
+.table-scroll table{min-width:520px}
+
+/* ---- compatibility shim for ported markup (Team, Invite, Messages, Subscription,
+   Manual, Account) that predates this navy/gold rebuild -- restyles their existing
+   class names to match the new theme instead of requiring a full markup rewrite.
+   Their old ".row" class is renamed to ".okv-row" wherever ported, since Bootstrap's
+   own grid ".row" must not be overridden here. ---- */
+.okv-row{display:flex;gap:10px;flex-wrap:wrap}
+.okv-row > *{flex:1;min-width:160px}
+.card label{display:block;font-size:.84rem;font-weight:600;margin:.8rem 0 .3rem;color:#4a4636}
+.card input[type=text],.card input[type=password],.card input[type=email],.card input[type=number],.card input:not([type]),.card select,.card textarea{
+  width:100%;padding:.5rem .7rem;border:1px solid var(--line);border-radius:8px;font-size:.9rem;font-family:inherit;background:#fff;color:var(--ink);
+}
+.card input:focus,.card select:focus,.card textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.btn-primary{background:var(--navy);border-color:var(--navy);color:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;padding:.55rem 1rem;font-size:.88rem;font-weight:600;cursor:pointer;margin-top:.9rem}
+.btn-primary:hover{background:var(--navy-2);color:#fff}
+.btn-outline{background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:.55rem 1rem;font-size:.88rem;font-weight:600;cursor:pointer}
+.btn-danger{background:var(--red);color:#fff;border:none;border-radius:8px;padding:.55rem 1rem;font-size:.88rem;font-weight:600;cursor:pointer}
+.btn-sm{padding:.35rem .7rem !important;font-size:.78rem !important;margin-top:0 !important}
+.muted{color:#8a8570;font-size:.85rem}
+.err{color:var(--red);font-size:.85rem;margin-top:.5rem}
+.ok{color:var(--green);font-size:.85rem;margin-top:.5rem}
+.pill{display:inline-block;background:#eef0f5;color:#4a4636;font-size:.72rem;font-weight:600;padding:.25em .6em;border-radius:20px;margin:2px 4px 2px 0}
+.badge.active{background:#d9ede0;color:var(--green)}
+.badge.suspended{background:#f7dede;color:var(--red)}
+.link-box{background:#f2f0e7;border:1px dashed var(--line);border-radius:10px;padding:.6rem .8rem;font-size:.85rem;word-break:break-all}
+.center{text-align:center}
+</style>
+<style>
+.okv-pw-wrap{position:relative;display:block}
+.okv-pw-wrap input{padding-right:40px !important}
+.okv-pw-toggle{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;padding:6px;margin:0;cursor:pointer;color:#8a8578;display:flex;align-items:center;justify-content:center;border-radius:8px;line-height:0}
+.okv-pw-toggle:hover{background:rgba(0,0,0,.06);color:var(--ink)}
+</style>
+<script>
+// Adds a show/hide eye icon to EVERY password input on this page, including ones added
+// later by JS (modals, dynamically-rendered forms) — no per-form wiring needed elsewhere.
+(function(){
+  function eyeSvg(hidden){
+    return hidden
+      ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-3.22 4.44M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+      : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
+  function wire(inp){
+    if (!inp || inp.dataset.pwWired) return;
+    if (!inp.parentNode) return;
+    inp.dataset.pwWired = '1';
+    var wrap = document.createElement('span');
+    wrap.className = 'okv-pw-wrap';
+    inp.parentNode.insertBefore(wrap, inp);
+    wrap.appendChild(inp);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'okv-pw-toggle';
+    btn.tabIndex = -1;
+    btn.setAttribute('aria-label', 'Show password');
+    btn.innerHTML = eyeSvg(false);
+    btn.addEventListener('click', function(){
+      var showing = inp.type === 'text';
+      inp.type = showing ? 'password' : 'text';
+      btn.innerHTML = eyeSvg(!showing);
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+    wrap.appendChild(btn);
+  }
+  function scan(root){
+    (root || document).querySelectorAll('input[type="password"]').forEach(wire);
+  }
+  document.addEventListener('DOMContentLoaded', function(){ scan(document); });
+  scan(document);
+  new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      m.addedNodes && m.addedNodes.forEach(function(n){
+        if (!n || n.nodeType !== 1) return;
+        if (n.matches && n.matches('input[type="password"]')) wire(n);
+        if (n.querySelectorAll) scan(n);
+      });
+    });
+  }).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+
+</head>
+<body>
+<div id="sidebar">
+  <div class="brand"><span class="bi bi-journal-bookmark-fill"></span> OKV Business Management System</div>
+  <div class="biz-tag" id="bizTag">Loading…</div>
+  <nav class="nav flex-column">
+    <a class="nav-link active" data-section="dashboard"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a class="nav-link" data-section="pos"><i class="bi bi-shop"></i> Point of Sale</a>
+
+    <div class="nav-section-label">Sales</div>
+    <a class="nav-link" data-section="sales"><i class="bi bi-cart-check"></i> Sales</a>
+    <a class="nav-link" data-section="invoices"><i class="bi bi-receipt"></i> Invoices</a>
+    <a class="nav-link" data-section="receipts"><i class="bi bi-cash-stack"></i> Receipts</a>
+    <a class="nav-link" data-section="customers"><i class="bi bi-people"></i> Customers</a>
+
+    <div class="nav-section-label">Purchases</div>
+    <a class="nav-link" data-section="purchases"><i class="bi bi-truck"></i> Purchases</a>
+    <a class="nav-link" data-section="payments"><i class="bi bi-credit-card"></i> Payments</a>
+    <a class="nav-link" data-section="suppliers"><i class="bi bi-building"></i> Suppliers</a>
+
+    <div class="nav-section-label">Inventory</div>
+    <a class="nav-link" data-section="inventory"><i class="bi bi-boxes"></i> Inventory / Stock</a>
+    <a class="nav-link" data-section="scan"><i class="bi bi-upc-scan"></i> Scan Barcode</a>
+
+    <div class="nav-section-label">Finance</div>
+    <a class="nav-link" data-section="debts"><i class="bi bi-exclamation-diamond"></i> Debts / Credit</a>
+    <a class="nav-link" data-section="expenses"><i class="bi bi-wallet2"></i> Expenses</a>
+    <a class="nav-link" data-section="income"><i class="bi bi-graph-up-arrow"></i> Other Income</a>
+    <a class="nav-link" data-section="pnl"><i class="bi bi-bar-chart-line"></i> Profit &amp; Loss</a>
+    <a class="nav-link" data-section="cashflow"><i class="bi bi-arrow-left-right"></i> Cash Flow</a>
+
+    <div class="nav-section-label">Analytics</div>
+    <a class="nav-link" data-section="reports"><i class="bi bi-file-earmark-bar-graph"></i> Insights &amp; Reports</a>
+
+    <div class="nav-section-label">Team &amp; Account</div>
+    <a class="nav-link" data-section="team"><i class="bi bi-person-badge"></i> Team</a>
+    <a class="nav-link" data-section="invite"><i class="bi bi-link-45deg"></i> Invite Link</a>
+    <a class="nav-link" data-section="messages"><i class="bi bi-chat-dots"></i> Messages</a>
+    <a class="nav-link" data-section="subscription"><i class="bi bi-star"></i> Subscription</a>
+
+    <div class="nav-section-label">Admin</div>
+    <a class="nav-link" data-section="settings"><i class="bi bi-gear"></i> Settings</a>
+    <a class="nav-link" data-section="manual"><i class="bi bi-book"></i> User Manual</a>
+    <a class="nav-link" data-section="account"><i class="bi bi-person-circle"></i> Account</a>
+  </nav>
+  <div class="sidebar-footer">Developed by: OKV Technology Consults</div>
+</div>
+
+<div id="main">
+  <div class="topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-sm btn-outline-secondary d-lg-none" onclick="document.getElementById('sidebar').classList.toggle('show')"><i class="bi bi-list"></i></button>
+      <span class="small" id="trialBanner"></span>
+      <span class="badge" style="background:#c69a3d;color:#fff">LIVE DEMO</span>
+    </div>
+    <div class="d-flex align-items-center gap-3 flex-wrap">
+      <span class="text-muted small"><span class="live-dot" id="liveDot" style="display:none"></span><span id="syncStatus">Not synced yet</span></span>
+      <button class="btn btn-sm btn-outline-secondary" id="syncBtn">Sync now</button>
+      <span class="badge bg-light text-dark border" id="whoami"><i class="bi bi-person-circle"></i></span>
+      <button class="btn btn-sm btn-outline-secondary" id="upgradeBtn" style="display:none">Upgrade</button>
+      <button class="btn btn-sm btn-outline-danger" id="logoutBtn">Exit demo</button>
+    </div>
+  </div>
+  <div class="alert alert-warning m-3 mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2" style="border-radius:10px">
+    <span>Sample data — nothing you add here is saved or sent.</span>
+    <a href="pricing.html" class="fw-semibold">Start your free trial →</a>
+  </div>
+  <div id="panelHost"></div>
+</div>
+
+<!-- GENERIC RECORD MODAL -->
+<div class="modal fade" id="recordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title" id="recordModalTitle">Add Record</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body" id="recordModalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-gold" id="recordSaveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTLE DEBT MODAL -->
+<div class="modal fade" id="settleModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Record Payment</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <p class="mb-2" id="settleInfo"></p>
+        <label class="form-label">Amount received / paid</label>
+        <input type="number" class="form-control" id="settleAmount">
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-gold" id="settleConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT / INVOICE PRINT MODAL -->
+<div class="modal fade" id="receiptModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title"><i class="bi bi-receipt"></i> Document</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body"><div class="receipt-box" id="receiptContent"></div></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-gold" onclick="window.print()"><i class="bi bi-printer"></i> Print / Save PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="printArea"></div>
+<div id="okv-toast-host"></div>
+
+<script src="app-common.js"></script>
+<script>
+// ===== DEMO SHIM — sandboxes this page from any real login/session/backend =====
+// Nothing below ever touches a real signed-in session, a real Google Sheet, or the
+// real app's offline storage — it's a fully separate, in-browser sandbox. Loaded
+// after app-common.js so these definitions simply override the real ones.
+const DEMO_SESSION = {
+  userId: 'demo_admin', orgId: 'demo_org', username: 'admin@sunnystores.demo',
+  businessName: 'Sunny Stores', fullName: 'Ada Admin', phone: '',
+  isAdmin: true, isSuperAdmin: false, roles: [], status: 'active',
+  subscriptionStatus: 'active', subscriptionPlan: 'Pro \u00b7 Monthly', billingState: 'trial',
+  subscriptionStartDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+  subscriptionExpiry: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+  createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+};
+function getSession() { return DEMO_SESSION; }
+function requireSession() { return DEMO_SESSION; }
+function saveSession() { /* demo: no real session is ever stored */ }
+function clearSession() { /* demo: nothing to clear -- never touches real login state */ }
+
+const DEMO_USERS = [
+  { orgId: 'demo_org', userId: 'demo_admin', username: 'admin@sunnystores.demo', email: 'admin@sunnystores.demo',
+    roles: [], isAdmin: true, status: 'active', createdAt: DEMO_SESSION.createdAt },
+  { orgId: 'demo_org', userId: 'demo_u1', username: 'chidinma', email: 'chidinma@sunnystores.demo',
+    roles: ['Cashier'], isAdmin: false, status: 'active', createdAt: new Date(Date.now() - 20 * 86400000).toISOString() },
+  { orgId: 'demo_org', userId: 'demo_u2', username: 'tunde', email: 'tunde@sunnystores.demo',
+    roles: ['Inventory / Store Officer', 'Purchasing Officer'], isAdmin: false, status: 'active', createdAt: new Date(Date.now() - 14 * 86400000).toISOString() },
+  { orgId: 'demo_org', userId: 'demo_u3', username: 'blessing', email: 'blessing@sunnystores.demo',
+    roles: ['Accountant / Finance Officer', 'Auditor / Report Viewer'], isAdmin: false, status: 'suspended', createdAt: new Date(Date.now() - 9 * 86400000).toISOString() }
+];
+
+const DEMO_BLOCKED = 'This is a live demo \u2014 start your free trial to do this for real.';
+let DEMO_CHAT = [
+  { messageId: 'm1', fromUserId: 'demo_u1', fromUsername: 'chidinma', toUserId: '', toLabel: 'Everyone', body: 'Till 2 is out of small change again \ud83d\ude05', createdAt: new Date(Date.now() - 3 * 3600000).toISOString() },
+  { messageId: 'm2', fromUserId: 'demo_admin', fromUsername: 'admin@sunnystores.demo', toUserId: '', toLabel: 'Everyone', body: 'Noted, sending change over now.', createdAt: new Date(Date.now() - 3 * 3600000 + 60000).toISOString() }
+];
+
+// Replaces the real network client entirely -- every "backend" action below is mocked,
+// so this page never calls the real Apps Script API.
+async function apiCall(action, params) {
+  await new Promise((r) => setTimeout(r, 200)); // feel like a real round trip
+  switch (action) {
+    case 'getUsers': return { ok: true, users: DEMO_USERS };
+    case 'getPublicSettings': return { ok: true, settings: {
+        supportEmail: SUPPORT_EMAIL_DEFAULT, supportPhone: SUPPORT_PHONE_DEFAULT, supportWebsite: SUPPORT_WEBSITE_DEFAULT,
+        manualPaymentMethods: MANUAL_PAYMENT_METHODS_DEFAULT, planCatalog: PLAN_CATALOG_DEFAULT, trialDays: 7, reminderDaysBeforeDue: 3,
+        paystackEnabled: false, paystackPublicKey: '', flutterwaveEnabled: false, flutterwavePublicKey: '', remitaEnabled: false,
+        smsEnabled: false, whatsappEnabled: false,
+        brandPrimaryColor: '', brandAccentColor: '', brandLogoUrl: '', brandTagline: ''
+      } };
+    case 'getTeamNames': return { ok: true, names: DEMO_USERS.map(u => ({ userId: u.userId, username: u.username, roles: u.roles })) };
+    case 'getSubscriptionStatus': return { ok: true, subscription: { active: true, plan: DEMO_SESSION.subscriptionPlan, billingState: 'trial', startDate: DEMO_SESSION.subscriptionStartDate, expiry: DEMO_SESSION.subscriptionExpiry, daysLeft: 4, expired: false } };
+    case 'syncPull': return { ok: true, records: [], serverTime: new Date().toISOString() };
+    case 'syncPush': return { ok: true, applied: (params.records || []).map(r => ({ recordId: r.recordId, updatedAt: new Date().toISOString() })), serverTime: new Date().toISOString() };
+    case 'getInternalMessages': return { ok: true, messages: DEMO_CHAT };
+    case 'sendInternalMessage':
+      DEMO_CHAT.push({ messageId: 'm' + (DEMO_CHAT.length + 1), fromUserId: DEMO_SESSION.userId, fromUsername: DEMO_SESSION.username, toUserId: params.toUserId || '', toLabel: params.toUserId ? (DEMO_USERS.find(u => u.userId === params.toUserId) || {}).username : 'Everyone', body: params.body, createdAt: new Date().toISOString() });
+      return { ok: true };
+    case 'sendEmailMessage': case 'sendSmsMessage': case 'sendWhatsappMessage':
+    case 'adminCreateUser': case 'adminEditUser': case 'adminDeleteUser':
+    case 'adminSetUserPassword': case 'adminSetUserStatus': case 'changePassword':
+    case 'submitPaymentProof': case 'initPaystackPayment':
+      return { ok: false, error: DEMO_BLOCKED };
+    case 'getPaymentSubmissions':
+      return { ok: true, submissions: [] };
+    default:
+      return { ok: false, error: DEMO_BLOCKED };
+  }
+}
+
+// Gives the demo its own private offline database (separate from the real app's), so
+// trying products/scanning/POS/sales here feels completely real without ever touching
+// a real signed-in user's actual data on the same device/browser.
+let _demoDbPromise = null;
+function openDb() {
+  if (_demoDbPromise) return _demoDbPromise;
+  _demoDbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open('okv_biztrack_demo', 1);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains('records')) {
+        const store = db.createObjectStore('records', { keyPath: 'recordId' });
+        store.createIndex('type', 'type');
+        store.createIndex('dirty', 'dirty');
+      }
+      if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta', { keyPath: 'key' });
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return _demoDbPromise;
+}
+
+function requestNotificationPermission() { return Promise.resolve(); } // skip prompting in a demo
+
+// Seeds a starter catalog + a few records once per browser, only into the demo's own database.
+async function seedDemoData() {
+  const existing = await idbGetAll('records');
+  if (existing.length) return;
+  const products = [
+    { name: 'Rice (50kg bag)', barcode: '6001234500019', unit: 'bag', price: '45000', qty: 40, reorderLevel: 10, category: 'Groceries' },
+    { name: 'Coca-Cola 50cl', barcode: '6001234500026', unit: 'bottle', price: '350', qty: 150, reorderLevel: 30, category: 'Beverages' },
+    { name: 'Indomie Carton', barcode: '6001234500033', unit: 'carton', price: '8500', qty: 25, reorderLevel: 10, category: 'Groceries' },
+    { name: 'Peak Milk Tin', barcode: '6001234500040', unit: 'tin', price: '1200', qty: 8, reorderLevel: 15, category: 'Groceries' },
+    { name: 'Cooking Gas 12.5kg', barcode: '6001234500057', unit: 'refill', price: '13500', qty: 12, reorderLevel: 5, category: 'Household' }
+  ];
+  for (const p of products) await saveProduct(p);
+  await saveLocalRecord('Sale', { date: todayStr(), customer: 'Grace Adeyemi', product: 'Coca-Cola 50cl', qty: 12, unitPrice: 350, total: 4200, paid: 4200, balance: 0, status: 'Paid', cashier: 'Chidinma' });
+  await saveLocalRecord('Sale', { date: todayStr(), customer: 'Emeka Nwosu', product: 'Rice (50kg bag)', qty: 1, unitPrice: 45000, total: 45000, paid: 20000, balance: 25000, status: 'Partial', cashier: 'Chidinma' });
+  await saveLocalRecord('Sale', { date: todayStr(-1), customer: 'Grace Adeyemi', product: 'Cooking Gas 12.5kg', qty: 1, unitPrice: 13500, total: 13500, paid: 0, balance: 13500, status: 'Unpaid', cashier: '' });
+  await saveLocalRecord('Expense', { date: todayStr(), category: 'Transport', description: 'Delivery bike fuel', amount: 3000, paidBy: 'Cash' });
+  await saveLocalRecord('Purchase', { date: todayStr(-2), supplier: 'CocaBev Distributors', product: 'Coca-Cola 50cl', qty: 100, unitPrice: 280, total: 28000, paid: 28000, balance: 0, status: 'Paid' });
+  await saveLocalRecord('Customer', { name: 'Grace Adeyemi', email: 'grace.a@gmail.com', phone: '+2348011112222', note: 'Regular weekly restock buyer' });
+  await saveLocalRecord('Customer', { name: 'Emeka Nwosu', email: '', phone: '+2348123334444', note: 'Pays on credit, settles weekly' });
+  await saveLocalRecord('Supplier', { name: 'CocaBev Distributors', email: 'orders@cocabev.example', phone: '+2348033334444', note: 'Beverage supplier' });
+}
+seedDemoData();
+</script>
+<script>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js').catch(() => {});
+const ROLES = ['Business Owner / Super Admin', 'Business Manager', 'Sales / POS Officer', 'Inventory / Store Officer', 'Purchasing Officer', 'Accountant / Finance Officer', 'Cashier', 'Auditor / Report Viewer'];
+const session = requireSession('login.html');
+if (session.isSuperAdmin) window.location.href = 'super-admin.html';
+document.getElementById('whoami').innerHTML = '<i class="bi bi-person-circle"></i> ' + session.username + (session.isAdmin ? ' · Admin' : '');
+document.getElementById('bizTag').textContent = session.businessName || session.username;
+document.getElementById('logoutBtn').addEventListener('click', () => { clearSession(); window.location.href = 'login.html'; });
+
+function ngn(n) { const sym = (typeof BRAND_CURRENCY !== 'undefined' && BRAND_CURRENCY) || '₦'; return sym + Number(n || 0).toLocaleString(); }
+function todayStr(offsetDays) { const d = new Date(); d.setDate(d.getDate() + (offsetDays || 0)); return d.toISOString().slice(0, 10); }
+function statusBadgeHtml(status) {
+  const map = { Paid: 'success', Partial: 'warning', Unpaid: 'danger', active: 'success', suspended: 'secondary' };
+  const c = map[status] || 'secondary';
+  return `<span class="badge badge-status text-bg-${c}">${status || ''}</span>`;
+}
+let BRAND_CURRENCY = '₦';
+
+// ---- sync status strip ----
+async function renderLastSync() {
+  const t = await idbGetMeta('lastSync');
+  document.getElementById('syncStatus').textContent = t ? ('Last synced ' + new Date(t).toLocaleString()) : 'Not synced yet';
+  document.getElementById('liveDot').style.display = navigator.onLine ? 'inline-block' : 'none';
+}
+document.getElementById('syncBtn').addEventListener('click', async () => { await syncNow(false); renderLastSync(); refreshCurrentSection(); });
+requestNotificationPermission();
+startAutoSync(60000);
+setInterval(renderLastSync, 5000);
+renderLastSync();
+
+// ---- sidebar navigation ----
+const SECTION_RENDERERS = {
+  dashboard: renderDashboardSection, pos: renderPosSection, scan: renderScanSection,
+  sales: () => renderCrudSection('Sale'), invoices: () => renderCrudSection('Invoice'), receipts: () => renderCrudSection('Receipt'),
+  customers: () => renderCrudSection('Customer'), purchases: () => renderCrudSection('Purchase'), payments: () => renderCrudSection('Payment'),
+  suppliers: () => renderCrudSection('Supplier'), inventory: renderInventorySection,
+  debts: renderDebtsSection, expenses: () => renderCrudSection('Expense'), income: () => renderCrudSection('Income'),
+  pnl: renderPnlSection, cashflow: renderCashflowSection, reports: renderReportsSection,
+  // These six are lazy (arrow-wrapped) because they alias functions ported further down
+  // the file (const renderTeamSection = renderTeamTab; etc.) — a plain object-literal
+  // reference to them here would run before those consts are initialized (temporal
+  // dead zone) and throw. Wrapping defers the lookup until the section is actually opened.
+  team: () => renderTeamSection(), invite: () => renderInviteSection(), messages: () => renderMessagesSection(),
+  subscription: () => renderSubscriptionSection(), settings: renderSettingsSection,
+  manual: () => renderManualSection(), account: () => renderAccountSection()
+};
+let activeSection = 'dashboard';
+function navigateTo(id) {
+  activeSection = id;
+  document.querySelectorAll('#sidebar .nav-link').forEach(a => a.classList.toggle('active', a.dataset.section === id));
+  document.getElementById('sidebar').classList.remove('show');
+  refreshCurrentSection();
+}
+document.querySelectorAll('#sidebar .nav-link').forEach(a => a.addEventListener('click', () => navigateTo(a.dataset.section)));
+function refreshCurrentSection() {
+  stopCameraScan(document.getElementById('scanVideo'));
+  const fn = SECTION_RENDERERS[activeSection];
+  if (fn) fn();
+}
+
+// ---- admin-only nav items hidden for non-admins ----
+if (!session.isAdmin) {
+  ['team', 'invite', 'subscription', 'settings', 'suppliers', 'payments', 'purchases', 'pnl', 'cashflow', 'reports'].forEach(id => {
+    const el = document.querySelector(`#sidebar .nav-link[data-section="${id}"]`);
+    if (el) el.style.display = 'none';
+  });
+}
+
+// =====================================================================
+// GENERIC CRUD ENGINE — Sales, Purchases, Customers, Suppliers, Invoices,
+// Receipts, Payments, Expenses, Other Income. All backed by the same
+// per-tenant "records" store (type + JSON payload) used everywhere else
+// in the app, so everything here syncs and works offline exactly like
+// the rest of the system — nothing here is a separate/fake data source.
+// =====================================================================
+const SCHEMAS = {
+  Customer: { label: 'Customer', icon: 'bi-people', section: 'customers',
+    desc: 'Everyone who buys from you — contact details and any opening balance owed.',
+    columns: [['name', 'Name'], ['phone', 'Phone'], ['email', 'Email'], ['address', 'Address'], ['balance', 'Opening Balance Owed']],
+    fields: [{ k: 'name', l: 'Full Name / Business Name', t: 'text' }, { k: 'phone', l: 'Phone', t: 'text' }, { k: 'email', l: 'Email', t: 'text' }, { k: 'address', l: 'Address', t: 'text' }, { k: 'balance', l: 'Opening Balance Owed', t: 'number' }] },
+  Supplier: { label: 'Supplier', icon: 'bi-building', section: 'suppliers',
+    desc: 'Everyone you buy from — contact details and any opening balance you owe.',
+    columns: [['name', 'Name'], ['phone', 'Phone'], ['email', 'Email'], ['balance', 'Opening Balance You Owe']],
+    fields: [{ k: 'name', l: 'Supplier / Company Name', t: 'text' }, { k: 'phone', l: 'Phone', t: 'text' }, { k: 'email', l: 'Email', t: 'text' }, { k: 'balance', l: 'Opening Balance You Owe', t: 'number' }] },
+  Sale: { label: 'Sale', icon: 'bi-cart-check', section: 'sales',
+    desc: 'Every sale recorded — paid in full, part-paid, or on credit.',
+    columns: [['date', 'Date'], ['customer', 'Customer'], ['product', 'Product'], ['qty', 'Qty'], ['total', 'Total'], ['paid', 'Paid'], ['balance', 'Balance'], ['status', 'Status'], ['cashier', 'Cashier']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'customer', l: 'Customer', t: 'textselect', src: 'Customer' }, { k: 'product', l: 'Product', t: 'textselect', src: 'Product' }, { k: 'qty', l: 'Quantity', t: 'number' }, { k: 'unitPrice', l: 'Unit Price', t: 'number' }, { k: 'paid', l: 'Amount Paid', t: 'number' }, { k: 'cashier', l: 'Cashier Name (optional)', t: 'text' }],
+    printable: true },
+  Purchase: { label: 'Purchase', icon: 'bi-truck', section: 'purchases',
+    desc: 'Stock and goods bought in from your suppliers.',
+    columns: [['date', 'Date'], ['supplier', 'Supplier'], ['product', 'Product'], ['qty', 'Qty'], ['total', 'Total'], ['paid', 'Paid'], ['balance', 'Balance'], ['status', 'Status']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'supplier', l: 'Supplier', t: 'textselect', src: 'Supplier' }, { k: 'product', l: 'Product', t: 'textselect', src: 'Product' }, { k: 'qty', l: 'Quantity', t: 'number' }, { k: 'unitPrice', l: 'Unit Cost', t: 'number' }, { k: 'paid', l: 'Amount Paid', t: 'number' }] },
+  Invoice: { label: 'Invoice', icon: 'bi-receipt', section: 'invoices',
+    desc: 'Bills issued to customers for goods or services.',
+    columns: [['date', 'Date'], ['customer', 'Customer'], ['amount', 'Amount'], ['dueDate', 'Due Date'], ['status', 'Status']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'customer', l: 'Customer', t: 'textselect', src: 'Customer' }, { k: 'amount', l: 'Amount', t: 'number' }, { k: 'dueDate', l: 'Due Date', t: 'date' }, { k: 'status', l: 'Status', t: 'selectlist', opts: ['Unpaid', 'Partial', 'Paid'] }],
+    printable: true },
+  Receipt: { label: 'Receipt', icon: 'bi-cash-stack', section: 'receipts',
+    desc: 'Proof of money received from customers.',
+    columns: [['date', 'Date'], ['customer', 'Customer'], ['amount', 'Amount'], ['method', 'Method']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'customer', l: 'Customer', t: 'textselect', src: 'Customer' }, { k: 'amount', l: 'Amount Received', t: 'number' }, { k: 'method', l: 'Payment Method', t: 'selectlist', opts: ['Cash', 'Bank Transfer', 'POS/Card', 'Mobile Money'] }],
+    printable: true },
+  Payment: { label: 'Payment', icon: 'bi-credit-card', section: 'payments',
+    desc: 'Proof of money paid out to suppliers.',
+    columns: [['date', 'Date'], ['supplier', 'Supplier'], ['amount', 'Amount'], ['method', 'Method']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'supplier', l: 'Supplier', t: 'textselect', src: 'Supplier' }, { k: 'amount', l: 'Amount Paid', t: 'number' }, { k: 'method', l: 'Payment Method', t: 'selectlist', opts: ['Cash', 'Bank Transfer', 'POS/Card', 'Mobile Money'] }] },
+  Expense: { label: 'Expense', icon: 'bi-wallet2', section: 'expenses',
+    desc: 'Day-to-day running costs of the business.',
+    columns: [['date', 'Date'], ['category', 'Category'], ['description', 'Description'], ['amount', 'Amount'], ['paidBy', 'Paid Via']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'category', l: 'Category', t: 'text' }, { k: 'description', l: 'Description', t: 'text' }, { k: 'amount', l: 'Amount', t: 'number' }, { k: 'paidBy', l: 'Paid Via', t: 'selectlist', opts: ['Cash', 'Bank Transfer', 'POS/Card'] }] },
+  Income: { label: 'Other Income', icon: 'bi-graph-up-arrow', section: 'income',
+    desc: 'Income earned outside of normal product sales.',
+    columns: [['date', 'Date'], ['source', 'Source'], ['description', 'Description'], ['amount', 'Amount']],
+    fields: [{ k: 'date', l: 'Date', t: 'date' }, { k: 'source', l: 'Income Source', t: 'text' }, { k: 'description', l: 'Description', t: 'text' }, { k: 'amount', l: 'Amount', t: 'number' }] },
+};
+
+async function recordsOfType(type) {
+  const all = await idbGetAll('records');
+  return all.filter(r => r.type === type && !r.deleted).map(r => ({ ...r, data: JSON.parse(r.payload || '{}') })).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+}
+async function namesOfType(type) { return (await recordsOfType(type)).map(r => r.data.name).filter(Boolean); }
+
+let crudFilter = '';
+let salesStatusFilter = 'all';
+async function renderCrudSection(type) {
+  const schema = SCHEMAS[type];
+  const host = document.getElementById('panelHost');
+  let rows = await recordsOfType(type);
+  if (type === 'Sale' && salesStatusFilter !== 'all') rows = rows.filter(r => r.data.status === salesStatusFilter);
+  if (crudFilter) { const f = crudFilter.toLowerCase(); rows = rows.filter(r => JSON.stringify(r.data).toLowerCase().includes(f)); }
+
+  const salesTabsHtml = type === 'Sale' ? `
+    <ul class="nav nav-pills nav-pills-sm mb-2" id="salesTabs">
+      ${['all', 'Paid', 'Partial', 'Unpaid'].map(s => `<li class="nav-item"><a class="nav-link ${salesStatusFilter === s ? 'active' : ''}" data-sales-tab="${s}">${s === 'all' ? 'All Sales' : s}</a></li>`).join('')}
+    </ul>` : '';
+
+  host.innerHTML = `
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+      <div>
+        <div class="section-title"><i class="bi ${schema.icon}"></i> ${schema.label}${type !== 'Customer' && type !== 'Supplier' ? 's' : (type === 'Customer' ? 's' : 's')}</div>
+        <div class="section-sub">${schema.desc}</div>
+      </div>
+      <div class="d-flex gap-2">
+        <input type="text" class="form-control form-control-sm search-box" id="crudSearch" placeholder="Search…" value="${crudFilter}">
+        <button class="btn btn-navy btn-sm" id="crudAddBtn"><i class="bi bi-plus-lg"></i> Add ${schema.label}</button>
+      </div>
+    </div>
+    ${salesTabsHtml}
+    <div class="card mt-2"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0" id="crudTable"></table></div></div></div>`;
+
+  document.getElementById('crudSearch').addEventListener('input', (e) => { crudFilter = e.target.value; renderCrudSection(type); });
+  document.getElementById('crudAddBtn').addEventListener('click', () => openCrudModal(type));
+  if (document.getElementById('salesTabs')) {
+    document.querySelectorAll('#salesTabs [data-sales-tab]').forEach(tab => {
+      tab.addEventListener('click', () => { salesStatusFilter = tab.dataset.salesTab; renderCrudSection(type); });
+    });
+  }
+
+  const table = document.getElementById('crudTable');
+  let thead = '<thead><tr>' + schema.columns.map(c => `<th>${c[1]}</th>`).join('') + '<th style="width:120px">Actions</th></tr></thead>';
+  let tbody = '<tbody>';
+  if (rows.length === 0) tbody += `<tr><td colspan="${schema.columns.length + 1}" class="text-center text-muted py-4">No records yet. Click "Add ${schema.label}" to create one.</td></tr>`;
+  rows.forEach(r => {
+    tbody += '<tr>';
+    schema.columns.forEach(c => {
+      let val = r.data[c[0]];
+      if (['unitPrice', 'total', 'paid', 'balance', 'amount'].includes(c[0])) val = ngn(val || 0);
+      if (c[0] === 'status') val = statusBadgeHtml(val);
+      tbody += `<td class="${['unitPrice', 'total', 'paid', 'balance', 'amount', 'qty'].includes(c[0]) ? 'tnum' : ''}">${val !== undefined ? val : ''}</td>`;
+    });
+    tbody += `<td class="text-nowrap">
+      ${schema.printable ? `<button class="btn btn-sm btn-outline-dark" data-print="${r.recordId}" title="Print"><i class="bi bi-printer"></i></button>` : ''}
+      <button class="btn btn-sm btn-outline-secondary" data-edit="${r.recordId}" title="Edit"><i class="bi bi-pencil"></i></button>
+      <button class="btn btn-sm btn-outline-danger" data-del="${r.recordId}" title="Delete"><i class="bi bi-trash"></i></button>
+    </td></tr>`;
+  });
+  tbody += '</tbody>';
+  table.innerHTML = thead + tbody;
+  table.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openCrudModal(type, b.dataset.edit)));
+  table.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this record? This cannot be undone.')) return;
+    await deleteLocalRecord(b.dataset.del, type);
+    toast('Record deleted.', 'ok'); if (navigator.onLine) syncNow(true);
+    renderCrudSection(type);
+  }));
+  table.querySelectorAll('[data-print]').forEach(b => b.addEventListener('click', () => openPrintDoc(type, b.dataset.print)));
+}
+
+async function openCrudModal(type, recordId) {
+  const schema = SCHEMAS[type];
+  const rec = recordId ? (await recordsOfType(type)).find(r => r.recordId === recordId) : null;
+  document.getElementById('recordModalTitle').textContent = (recordId ? 'Edit ' : 'Add ') + schema.label;
+  let html = '';
+  for (const f of schema.fields) {
+    const val = rec ? rec.data[f.k] : (f.t === 'date' ? todayStr() : '');
+    html += `<div class="mb-3"><label class="form-label">${f.l}</label>`;
+    if (f.t === 'textselect') {
+      const opts = await namesOfType(f.src);
+      html += `<input type="text" class="form-control" id="f_${f.k}" list="dl_${f.k}" value="${val || ''}" placeholder="Type a name or pick an existing one" autocomplete="off">
+        <datalist id="dl_${f.k}">${opts.map(n => `<option value="${n.replace(/"/g, '&quot;')}">`).join('')}</datalist>
+        <div class="form-text">Existing ${f.src.toLowerCase()}s show as suggestions — a new name is saved automatically.</div>`;
+    } else if (f.t === 'selectlist') {
+      html += `<select class="form-select" id="f_${f.k}">${f.opts.map(o => `<option value="${o}" ${val === o ? 'selected' : ''}>${o}</option>`).join('')}</select>`;
+    } else {
+      html += `<input type="${f.t}" class="form-control" id="f_${f.k}" value="${val !== undefined ? val : ''}">`;
+    }
+    html += '</div>';
+  }
+  document.getElementById('recordModalBody').innerHTML = html;
+  const saveBtn = document.getElementById('recordSaveBtn');
+  saveBtn.onclick = () => saveCrudRecord(type, recordId);
+  new bootstrap.Modal(document.getElementById('recordModal')).show();
+}
+
+async function ensureContactExists(type, name) {
+  if (!name) return;
+  const existing = await namesOfType(type);
+  if (!existing.some(n => n.toLowerCase() === name.toLowerCase())) {
+    await saveLocalRecord(type, { name, phone: '', email: '', address: '', balance: 0 });
+    toast(`New ${type.toLowerCase()} "${name}" added automatically.`, 'ok');
+  }
+}
+async function ensureProductExists(name, unitPrice) {
+  if (!name) return;
+  const existing = await getProducts();
+  if (!existing.some(p => p.data.name.toLowerCase() === name.toLowerCase())) {
+    await saveProduct({ name, unit: 'unit', price: unitPrice || 0, barcode: '' });
+    toast(`New product "${name}" added automatically.`, 'ok');
+  }
+}
+
+async function saveCrudRecord(type, recordId) {
+  const schema = SCHEMAS[type];
+  const data = {};
+  schema.fields.forEach(f => { const el = document.getElementById('f_' + f.k); data[f.k] = f.t === 'number' ? Number(el.value || 0) : el.value.trim(); });
+
+  if (type === 'Sale' || type === 'Purchase') {
+    data.total = (data.qty || 0) * (data.unitPrice || 0);
+    data.balance = data.total - (data.paid || 0);
+    data.status = data.balance <= 0 ? 'Paid' : (data.paid > 0 ? 'Partial' : 'Unpaid');
+    await ensureContactExists(type === 'Sale' ? 'Customer' : 'Supplier', type === 'Sale' ? data.customer : data.supplier);
+    await ensureProductExists(data.product, data.unitPrice);
+  }
+  await saveLocalRecord(type, data, recordId);
+  toast(schema.label + (recordId ? ' updated.' : ' added.'), 'ok');
+  if (navigator.onLine) syncNow(true);
+  bootstrap.Modal.getInstance(document.getElementById('recordModal')).hide();
+  renderCrudSection(type);
+}
+
+// =====================================================================
+// DEBTS / CREDIT — computed from real Sale/Purchase records with a
+// balance still outstanding. Recording a payment updates that record
+// and creates the matching Receipt/Payment record automatically.
+// =====================================================================
+let debtTab = 'receivable';
+async function renderDebtsSection() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-exclamation-diamond"></i> Debts &amp; Credit Sales</div>
+    <div class="section-sub">Outstanding balances from unpaid or partially paid sales (receivables) and purchases (payables).</div>
+    <ul class="nav nav-tabs mb-3" id="debtTabs">
+      <li class="nav-item"><a class="nav-link ${debtTab === 'receivable' ? 'active' : ''}" data-debt-tab="receivable">Customers Owe You</a></li>
+      <li class="nav-item"><a class="nav-link ${debtTab === 'payable' ? 'active' : ''}" data-debt-tab="payable">You Owe Suppliers</a></li>
+    </ul>
+    <div class="card"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0" id="debtsTable"></table></div></div></div>`;
+  document.querySelectorAll('#debtTabs [data-debt-tab]').forEach(t => t.addEventListener('click', () => { debtTab = t.dataset.debtTab; renderDebtsSection(); }));
+
+  const table = document.getElementById('debtsTable');
+  let thead, tbody = '<tbody>';
+  if (debtTab === 'receivable') {
+    thead = '<thead><tr><th>Date</th><th>Customer</th><th>Total</th><th>Paid</th><th>Balance Owed</th><th>Status</th><th>Action</th></tr></thead>';
+    const rows = (await recordsOfType('Sale')).filter(r => r.data.balance > 0);
+    if (!rows.length) tbody += '<tr><td colspan="7" class="text-center text-muted py-4">No outstanding customer debts.</td></tr>';
+    rows.forEach(r => { tbody += `<tr><td>${r.data.date}</td><td>${r.data.customer}</td><td class="tnum">${ngn(r.data.total)}</td><td class="tnum">${ngn(r.data.paid)}</td><td class="tnum text-danger fw-semibold">${ngn(r.data.balance)}</td><td>${statusBadgeHtml(r.data.status)}</td><td><button class="btn btn-sm btn-gold" data-settle="${r.recordId}" data-type="Sale">Record Payment</button></td></tr>`; });
+  } else {
+    thead = '<thead><tr><th>Date</th><th>Supplier</th><th>Total</th><th>Paid</th><th>Balance You Owe</th><th>Status</th><th>Action</th></tr></thead>';
+    const rows = (await recordsOfType('Purchase')).filter(r => r.data.balance > 0);
+    if (!rows.length) tbody += '<tr><td colspan="7" class="text-center text-muted py-4">No outstanding supplier debts.</td></tr>';
+    rows.forEach(r => { tbody += `<tr><td>${r.data.date}</td><td>${r.data.supplier}</td><td class="tnum">${ngn(r.data.total)}</td><td class="tnum">${ngn(r.data.paid)}</td><td class="tnum text-danger fw-semibold">${ngn(r.data.balance)}</td><td>${statusBadgeHtml(r.data.status)}</td><td><button class="btn btn-sm btn-gold" data-settle="${r.recordId}" data-type="Purchase">Record Payment</button></td></tr>`; });
+  }
+  tbody += '</tbody>';
+  table.innerHTML = thead + tbody;
+  table.querySelectorAll('[data-settle]').forEach(b => b.addEventListener('click', () => openSettleModal(b.dataset.type, b.dataset.settle)));
+}
+
+let settleCtx = null;
+async function openSettleModal(type, recordId) {
+  const rec = (await recordsOfType(type)).find(r => r.recordId === recordId);
+  settleCtx = { type, recordId };
+  const who = type === 'Sale' ? rec.data.customer : rec.data.supplier;
+  document.getElementById('settleInfo').innerHTML = `${type === 'Sale' ? 'Customer' : 'Supplier'}: <strong>${who}</strong><br>Current balance: <strong>${ngn(rec.data.balance)}</strong>`;
+  document.getElementById('settleAmount').value = rec.data.balance;
+  document.getElementById('settleConfirmBtn').onclick = confirmSettle;
+  new bootstrap.Modal(document.getElementById('settleModal')).show();
+}
+async function confirmSettle() {
+  const { type, recordId } = settleCtx;
+  const amt = Number(document.getElementById('settleAmount').value || 0);
+  const rec = (await recordsOfType(type)).find(r => r.recordId === recordId);
+  const data = { ...rec.data };
+  data.paid = (data.paid || 0) + amt;
+  data.balance = data.total - data.paid;
+  data.status = data.balance <= 0 ? 'Paid' : (data.paid > 0 ? 'Partial' : 'Unpaid');
+  await saveLocalRecord(type, data, recordId);
+  if (type === 'Sale') await saveLocalRecord('Receipt', { date: todayStr(), customer: data.customer, amount: amt, method: 'Cash' });
+  else await saveLocalRecord('Payment', { date: todayStr(), supplier: data.supplier, amount: amt, method: 'Cash' });
+  if (navigator.onLine) syncNow(true);
+  bootstrap.Modal.getInstance(document.getElementById('settleModal')).hide();
+  toast('Payment recorded.', 'ok');
+  renderDebtsSection();
+}
+
+// =====================================================================
+// PROFIT & LOSS — computed live from Sale + Income vs Purchase (cost) + Expense
+// =====================================================================
+async function renderPnlSection() {
+  const host = document.getElementById('panelHost');
+  const [sales, purchases, expenses, income] = await Promise.all([recordsOfType('Sale'), recordsOfType('Purchase'), recordsOfType('Expense'), recordsOfType('Income')]);
+  const revenue = sales.reduce((s, r) => s + (r.data.total || 0), 0);
+  const otherIncome = income.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const cogs = purchases.reduce((s, r) => s + (r.data.total || 0), 0);
+  const opex = expenses.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const grossProfit = revenue - cogs;
+  const netProfit = grossProfit + otherIncome - opex;
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-bar-chart-line"></i> Profit &amp; Loss Statement</div>
+    <div class="section-sub">Computed automatically from your sales, other income, purchases and expense records.</div>
+    <div class="card" style="max-width:640px"><div class="card-body">
+      <div class="d-flex justify-content-between py-2"><span>Sales Revenue</span><span class="tnum">${ngn(revenue)}</span></div>
+      <div class="d-flex justify-content-between py-2 border-top"><span>Cost of Goods (Purchases)</span><span class="tnum text-danger">− ${ngn(cogs)}</span></div>
+      <div class="d-flex justify-content-between py-2 border-top fw-semibold"><span>Gross Profit</span><span class="tnum">${ngn(grossProfit)}</span></div>
+      <div class="d-flex justify-content-between py-2 border-top"><span>Other Income</span><span class="tnum text-success">+ ${ngn(otherIncome)}</span></div>
+      <div class="d-flex justify-content-between py-2 border-top"><span>Business Expenses</span><span class="tnum text-danger">− ${ngn(opex)}</span></div>
+      <div class="ledger-rule"></div>
+      <div class="d-flex justify-content-between py-2 fw-bold fs-5"><span>Net Profit</span><span class="tnum ${netProfit >= 0 ? 'text-success' : 'text-danger'}">${ngn(netProfit)}</span></div>
+    </div></div>`;
+}
+
+// =====================================================================
+// CASH FLOW — money actually received/paid (not just invoiced)
+// =====================================================================
+async function renderCashflowSection() {
+  const host = document.getElementById('panelHost');
+  const [sales, purchases, expenses, income, receipts, payments] = await Promise.all(['Sale', 'Purchase', 'Expense', 'Income', 'Receipt', 'Payment'].map(recordsOfType));
+  const moneyIn = sales.reduce((s, r) => s + (r.data.paid || 0), 0) + income.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const moneyOut = purchases.reduce((s, r) => s + (r.data.paid || 0), 0) + expenses.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const net = moneyIn - moneyOut;
+  const rows = [
+    ...sales.filter(r => r.data.paid > 0).map(r => ({ date: r.data.date, desc: 'Sale — ' + r.data.customer, dir: 'In', amt: r.data.paid })),
+    ...income.map(r => ({ date: r.data.date, desc: 'Income — ' + r.data.source, dir: 'In', amt: r.data.amount })),
+    ...purchases.filter(r => r.data.paid > 0).map(r => ({ date: r.data.date, desc: 'Purchase — ' + r.data.supplier, dir: 'Out', amt: r.data.paid })),
+    ...expenses.map(r => ({ date: r.data.date, desc: 'Expense — ' + r.data.category, dir: 'Out', amt: r.data.amount })),
+  ].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-arrow-left-right"></i> Cash Flow</div>
+    <div class="section-sub">Money in (receipts &amp; income) vs money out (payments &amp; expenses).</div>
+    <div class="row g-3 mb-3">
+      <div class="col-md-4"><div class="stat-card"><div class="stat-label">Money In</div><div class="stat-value text-success">${ngn(moneyIn)}</div></div></div>
+      <div class="col-md-4"><div class="stat-card"><div class="stat-label">Money Out</div><div class="stat-value text-danger">${ngn(moneyOut)}</div></div></div>
+      <div class="col-md-4"><div class="stat-card"><div class="stat-label">Net Cash Flow</div><div class="stat-value ${net >= 0 ? 'text-success' : 'text-danger'}">${ngn(net)}</div></div></div>
+    </div>
+    <div class="card"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0">
+      <thead><tr><th>Date</th><th>Description</th><th>Direction</th><th>Amount</th></tr></thead>
+      <tbody>${rows.length ? rows.map(r => `<tr><td>${r.date}</td><td>${r.desc}</td><td>${r.dir === 'In' ? '<span class="text-success">In</span>' : '<span class="text-danger">Out</span>'}</td><td class="tnum">${ngn(r.amt)}</td></tr>`).join('') : '<tr><td colspan="4" class="text-center text-muted py-4">No cash movement recorded yet.</td></tr>'}</tbody>
+    </table></div></div></div>`;
+}
+
+async function openPrintDoc(type, recordId) {
+  const rec = (await recordsOfType(type)).find(r => r.recordId === recordId);
+  if (!rec) return;
+  const biz = await getBusinessSettings();
+  const header = `<div class="text-center mb-3">
+    ${biz.logoUrl ? `<img src="${biz.logoUrl}" style="max-height:52px;max-width:150px;object-fit:contain;margin-bottom:.4rem;"><br>` : ''}
+    <h5 class="mb-0">${biz.name || session.businessName}</h5>
+    ${biz.address ? `<div class="small text-muted">${biz.address}</div>` : ''}
+    ${(biz.phone || biz.email) ? `<div class="small text-muted">${[biz.phone, biz.email].filter(Boolean).join(' · ')}</div>` : ''}
+    <div class="small text-muted mt-1">${type === 'Sale' ? 'Sales Receipt' : (type === 'Invoice' ? 'Invoice' : 'Payment Receipt')}</div></div>`;
+  let body = '';
+  if (type === 'Sale') {
+    const d = rec.data;
+    body = `<div class="d-flex justify-content-between small mb-1"><span>Receipt No.</span><span class="tnum">RCT-${rec.recordId.slice(-6)}</span></div>
+      <div class="d-flex justify-content-between small mb-1"><span>Date</span><span class="tnum">${d.date}</span></div>
+      <div class="d-flex justify-content-between small mb-3"><span>Customer</span><span>${d.customer}</span></div>
+      <div class="ledger-rule"></div>
+      <table class="table table-sm mb-2"><thead><tr><th>Item</th><th class="text-end">Qty</th><th class="text-end">Unit Price</th><th class="text-end">Total</th></tr></thead>
+      <tbody><tr><td>${d.product}</td><td class="text-end tnum">${d.qty}</td><td class="text-end tnum">${ngn(d.unitPrice)}</td><td class="text-end tnum">${ngn(d.total)}</td></tr></tbody></table>
+      <div class="ledger-rule"></div>
+      <div class="d-flex justify-content-between"><span>Total</span><span class="tnum fw-semibold">${ngn(d.total)}</span></div>
+      <div class="d-flex justify-content-between"><span>Amount Paid</span><span class="tnum">${ngn(d.paid)}</span></div>
+      <div class="d-flex justify-content-between"><span>Balance</span><span class="tnum ${d.balance > 0 ? 'text-danger' : ''}">${ngn(d.balance)}</span></div>
+      <div class="d-flex justify-content-between mt-1"><span>Status</span><span>${statusBadgeHtml(d.status)}</span></div>`;
+  } else if (type === 'Invoice') {
+    const d = rec.data;
+    body = `<div class="d-flex justify-content-between small mb-1"><span>Invoice No.</span><span class="tnum">INV-${rec.recordId.slice(-6)}</span></div>
+      <div class="d-flex justify-content-between small mb-1"><span>Date</span><span class="tnum">${d.date}</span></div>
+      <div class="d-flex justify-content-between small mb-1"><span>Due Date</span><span class="tnum">${d.dueDate || '—'}</span></div>
+      <div class="d-flex justify-content-between small mb-3"><span>Billed To</span><span>${d.customer}</span></div>
+      <div class="ledger-rule"></div>
+      <div class="d-flex justify-content-between"><span>Amount Due</span><span class="tnum fw-semibold">${ngn(d.amount)}</span></div>
+      <div class="d-flex justify-content-between mt-1"><span>Status</span><span>${statusBadgeHtml(d.status)}</span></div>`;
+  } else if (type === 'Receipt') {
+    const d = rec.data;
+    body = `<div class="d-flex justify-content-between small mb-1"><span>Receipt No.</span><span class="tnum">RCV-${rec.recordId.slice(-6)}</span></div>
+      <div class="d-flex justify-content-between small mb-1"><span>Date</span><span class="tnum">${d.date}</span></div>
+      <div class="d-flex justify-content-between small mb-3"><span>Received From</span><span>${d.customer}</span></div>
+      <div class="ledger-rule"></div>
+      <div class="d-flex justify-content-between"><span>Amount Received</span><span class="tnum fw-semibold">${ngn(d.amount)}</span></div>
+      <div class="d-flex justify-content-between mt-1"><span>Payment Method</span><span>${d.method}</span></div>`;
+  }
+  const full = header + body + `<div class="ledger-rule"></div><div class="text-center small text-muted mt-3">${biz.footer || 'Thank you for your business!'}</div>`;
+  document.getElementById('receiptContent').innerHTML = full;
+  document.getElementById('printArea').innerHTML = `<div class="receipt-box" style="display:block">${full}</div>`;
+  new bootstrap.Modal(document.getElementById('receiptModal')).show();
+}
+
+// =====================================================================
+// BUSINESS SETTINGS (branding: logo, currency, receipt footer) — stored
+// as a single singleton record of type 'BusinessSettings', synced like
+// everything else.
+// =====================================================================
+async function getBusinessSettings() {
+  const all = await idbGetAll('records');
+  const rec = all.find(r => r.type === 'BusinessSettings' && !r.deleted);
+  return rec ? JSON.parse(rec.payload || '{}') : {};
+}
+async function saveBusinessSettings(data) {
+  const all = await idbGetAll('records');
+  const existing = all.find(r => r.type === 'BusinessSettings' && !r.deleted);
+  await saveLocalRecord('BusinessSettings', data, existing ? existing.recordId : undefined);
+  if (navigator.onLine) syncNow(true);
+}
+async function renderSettingsSection() {
+  const host = document.getElementById('panelHost');
+  const biz = await getBusinessSettings();
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-gear"></i> Settings</div>
+    <div class="section-sub">Your business details — used to personalize invoices, receipts and printed reports across the whole system.</div>
+    <div class="card" style="max-width:680px"><div class="card-body">
+      <div class="row g-3">
+        <div class="col-12"><label class="form-label">Business Logo URL</label><input class="form-control" id="stLogoUrl" value="${biz.logoUrl || ''}" placeholder="https://…"><div class="form-text">Shown on printed receipts, invoices and reports.</div></div>
+        <div class="col-md-7"><label class="form-label">Business Name</label><input class="form-control" id="stName" value="${biz.name || session.businessName || ''}"></div>
+        <div class="col-md-5"><label class="form-label">Currency Symbol</label><input class="form-control" id="stCurrency" maxlength="4" value="${biz.currency || '₦'}"></div>
+        <div class="col-12"><label class="form-label">Business Address</label><input class="form-control" id="stAddress" value="${biz.address || ''}"></div>
+        <div class="col-md-6"><label class="form-label">Phone</label><input class="form-control" id="stPhone" value="${biz.phone || ''}"></div>
+        <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" id="stEmail" value="${biz.email || ''}"></div>
+        <div class="col-12"><label class="form-label">Receipt / Invoice Footer Note</label><input class="form-control" id="stFooter" value="${biz.footer || 'Thank you for your business!'}"></div>
+      </div>
+      <button class="btn btn-gold mt-3" id="stSaveBtn"><i class="bi bi-check2"></i> Save Settings</button>
+      <div id="stMsg" class="mt-2"></div>
+    </div></div>`;
+  document.getElementById('stSaveBtn').addEventListener('click', async () => {
+    const data = { logoUrl: val('stLogoUrl'), name: val('stName'), currency: val('stCurrency') || '₦', address: val('stAddress'), phone: val('stPhone'), email: val('stEmail'), footer: val('stFooter') };
+    await saveBusinessSettings(data);
+    BRAND_CURRENCY = data.currency;
+    document.getElementById('stMsg').innerHTML = '<span class="text-success">Saved.</span>';
+  });
+  function val(id) { return document.getElementById(id).value.trim(); }
+}
+getBusinessSettings().then(b => { if (b.currency) BRAND_CURRENCY = b.currency; });
+
+// =====================================================================
+// INVENTORY / STOCK — Products, extended with cost price + reorder level
+// and low-stock highlighting. Same underlying 'Product' record type used
+// by Scan Barcode and POS, so everything stays in sync automatically.
+// =====================================================================
+async function renderInventorySection() {
+  const host = document.getElementById('panelHost');
+  const products = await getProducts();
+  host.innerHTML = `
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+      <div><div class="section-title"><i class="bi bi-boxes"></i> Inventory / Stock</div>
+      <div class="section-sub">Track product stock levels, cost and selling prices across every product line.</div></div>
+      <div class="d-flex gap-2"><button class="btn btn-navy btn-sm" id="invAddBtn"><i class="bi bi-plus-lg"></i> Add Product</button></div>
+    </div>
+    <div class="card mt-2"><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0">
+      <thead><tr><th>Name</th><th>Barcode</th><th>Unit</th><th>Cost Price</th><th>Selling Price</th><th>Qty in Stock</th><th>Reorder Level</th><th style="width:100px">Actions</th></tr></thead>
+      <tbody>${products.length ? products.map(p => `<tr class="${Number(p.data.qty || 0) <= Number(p.data.reorderLevel || 0) ? 'low-stock-row' : ''}">
+        <td>${p.data.name}</td><td class="tnum">${p.data.barcode || '—'}</td><td>${p.data.unit || ''}</td>
+        <td class="tnum">${ngn(p.data.costPrice || 0)}</td><td class="tnum">${ngn(p.data.price || 0)}</td>
+        <td class="tnum">${p.data.qty !== undefined ? p.data.qty : '—'}</td><td class="tnum">${p.data.reorderLevel !== undefined ? p.data.reorderLevel : '—'}</td>
+        <td><button class="btn btn-sm btn-outline-secondary" data-edit="${p.recordId}"><i class="bi bi-pencil"></i></button>
+        <button class="btn btn-sm btn-outline-danger" data-del="${p.recordId}"><i class="bi bi-trash"></i></button></td></tr>`).join('') : '<tr><td colspan="8" class="text-center text-muted py-4">No products yet.</td></tr>'}</tbody>
+    </table></div></div></div>`;
+  document.getElementById('invAddBtn').addEventListener('click', () => openProductModal());
+  host.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openProductModal(b.dataset.edit)));
+  host.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this product?')) return;
+    await deleteLocalRecord(b.dataset.del, 'Product'); if (navigator.onLine) syncNow(true);
+    renderInventorySection();
+  }));
+}
+async function openProductModal(recordId) {
+  const rec = recordId ? (await getProducts()).find(p => p.recordId === recordId) : null;
+  const d = rec ? rec.data : {};
+  document.getElementById('recordModalTitle').textContent = recordId ? 'Edit Product' : 'Add Product';
+  document.getElementById('recordModalBody').innerHTML = `
+    <div class="mb-3"><label class="form-label">Product Name</label><input class="form-control" id="pf_name" value="${d.name || ''}"></div>
+    <div class="mb-3"><label class="form-label">Barcode <span class="text-muted small">(optional)</span></label><input class="form-control" id="pf_barcode" value="${d.barcode || ''}" placeholder="Leave blank if the product has none"></div>
+    <div class="mb-3"><label class="form-label">Unit (piece, kg, pack…)</label><input class="form-control" id="pf_unit" value="${d.unit || 'piece'}"></div>
+    <div class="row g-2">
+      <div class="col-6"><label class="form-label">Cost Price</label><input type="number" class="form-control" id="pf_cost" value="${d.costPrice || 0}"></div>
+      <div class="col-6"><label class="form-label">Selling Price</label><input type="number" class="form-control" id="pf_price" value="${d.price || 0}"></div>
+      <div class="col-6"><label class="form-label">Quantity in Stock</label><input type="number" class="form-control" id="pf_qty" value="${d.qty !== undefined ? d.qty : 0}"></div>
+      <div class="col-6"><label class="form-label">Reorder Level</label><input type="number" class="form-control" id="pf_reorder" value="${d.reorderLevel !== undefined ? d.reorderLevel : 5}"></div>
+    </div>`;
+  document.getElementById('recordSaveBtn').onclick = async () => {
+    const data = { name: gv('pf_name'), barcode: gv('pf_barcode'), unit: gv('pf_unit'), costPrice: Number(gv('pf_cost') || 0), price: Number(gv('pf_price') || 0), qty: Number(gv('pf_qty') || 0), reorderLevel: Number(gv('pf_reorder') || 0) };
+    await saveProduct(data, recordId);
+    if (navigator.onLine) syncNow(true);
+    toast('Product ' + (recordId ? 'updated.' : 'added.'), 'ok');
+    bootstrap.Modal.getInstance(document.getElementById('recordModal')).hide();
+    renderInventorySection();
+  };
+  function gv(id) { return document.getElementById(id).value.trim(); }
+  new bootstrap.Modal(document.getElementById('recordModal')).show();
+}
+
+// =====================================================================
+// DASHBOARD — real stat cards, cash-flow trend, top products, low stock,
+// top debtors, receivables vs payables, recent activity, health snapshot.
+// All computed live from the same synced records everything else uses.
+// =====================================================================
+async function renderDashboardSection() {
+  const host = document.getElementById('panelHost');
+  const [sales, purchases, expenses, income, products] = await Promise.all(['Sale', 'Purchase', 'Expense', 'Income'].map(recordsOfType).concat([getProducts()]));
+  const today = todayStr();
+  const todaySales = sales.filter(r => r.data.date === today).reduce((s, r) => s + (r.data.total || 0), 0);
+  const todayExpenses = expenses.filter(r => r.data.date === today).reduce((s, r) => s + (r.data.amount || 0), 0);
+  const lowStock = products.filter(p => Number(p.data.qty || 0) <= Number(p.data.reorderLevel || 0));
+  const debtors = sales.filter(r => r.data.balance > 0);
+  const totalReceivable = debtors.reduce((s, r) => s + r.data.balance, 0);
+  const totalPayable = purchases.filter(r => r.data.balance > 0).reduce((s, r) => s + r.data.balance, 0);
+  const revenue = sales.reduce((s, r) => s + (r.data.total || 0), 0);
+
+  host.innerHTML = `
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+      <div><div class="section-title">Dashboard</div><div class="section-sub">Real-time overview of your business, recalculated instantly from every record you enter.</div></div>
+      <span class="badge bg-success-subtle text-success border border-success-subtle"><span class="live-dot"></span>Live report</span>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-6 col-lg-3"><div class="stat-card"><div class="stat-label">Today's Sales</div><div class="stat-value">${ngn(todaySales)}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card"><div class="stat-label">Today's Expenses</div><div class="stat-value">${ngn(todayExpenses)}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card"><div class="stat-label">Total Revenue</div><div class="stat-value">${ngn(revenue)}</div></div></div>
+      <div class="col-6 col-lg-3"><div class="stat-card"><div class="stat-label">Low Stock Items</div><div class="stat-value">${lowStock.length}</div></div></div>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-lg-7"><div class="card h-100"><div class="card-header card-header-line d-flex justify-content-between align-items-center"><span>Cash Flow Trend — last 7 days</span></div>
+        <div class="card-body"><div class="chart-box"><canvas id="chartCashflowTrend"></canvas></div></div></div></div>
+      <div class="col-lg-5"><div class="card h-100"><div class="card-header card-header-line">Top Products by Revenue</div>
+        <div class="card-body"><div class="chart-box"><canvas id="chartTopProducts"></canvas></div></div></div></div>
+    </div>
+    <div class="row g-3 mb-3">
+      <div class="col-lg-4"><div class="card h-100"><div class="card-header card-header-line"><i class="bi bi-exclamation-triangle text-danger"></i> Low Stock Alerts</div>
+        <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0"><tbody>${lowStock.length ? lowStock.map(p => `<tr><td>${p.data.name}</td><td class="tnum text-danger">${p.data.qty} left</td></tr>`).join('') : '<tr><td class="text-center text-muted py-3">Stock levels look healthy.</td></tr>'}</tbody></table></div></div></div></div>
+      <div class="col-lg-4"><div class="card h-100"><div class="card-header card-header-line"><i class="bi bi-people text-danger"></i> Top Debtors (Owe You)</div>
+        <div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0"><tbody>${debtors.length ? debtors.sort((a, b) => b.data.balance - a.data.balance).slice(0, 6).map(r => `<tr><td>${r.data.customer}</td><td class="tnum text-danger">${ngn(r.data.balance)}</td></tr>`).join('') : '<tr><td class="text-center text-muted py-3">No outstanding customer debts.</td></tr>'}</tbody></table></div></div></div></div>
+      <div class="col-lg-4"><div class="card h-100"><div class="card-header card-header-line">Receivables vs Payables</div><div class="card-body"><div class="chart-box" style="height:170px"><canvas id="chartDebtOverview"></canvas></div>
+        <div class="d-flex justify-content-between py-1 border-top mt-2 pt-2"><span>Net position</span><span class="tnum fw-bold">${ngn(totalReceivable - totalPayable)}</span></div>
+      </div></div></div>
+    </div>
+    <div class="row g-3">
+      <div class="col-lg-7"><div class="card h-100"><div class="card-header card-header-line d-flex justify-content-between align-items-center"><span><i class="bi bi-clock-history"></i> Recent Activity</span><span class="text-muted small">Most recent first</span></div>
+        <div class="card-body" id="activityFeed" style="max-height:320px;overflow-y:auto"></div></div></div>
+      <div class="col-lg-5"><div class="card h-100"><div class="card-header card-header-line">Business Health Snapshot</div>
+        <div class="card-body d-flex flex-column gap-2" id="healthSnapshot"></div></div></div>
+    </div>`;
+
+  // Cash Flow Trend — last 7 days (Sale + Income in, Expense + Purchase out)
+  const daysBack7 = Array.from({ length: 7 }, (_, i) => todayStr(-(6 - i)));
+  const inByDay = {}, outByDay = {};
+  daysBack7.forEach(d => { inByDay[d] = 0; outByDay[d] = 0; });
+  sales.forEach(r => { if (inByDay[r.data.date] !== undefined) inByDay[r.data.date] += (r.data.total || 0); });
+  income.forEach(r => { if (inByDay[r.data.date] !== undefined) inByDay[r.data.date] += (r.data.amount || 0); });
+  expenses.forEach(r => { if (outByDay[r.data.date] !== undefined) outByDay[r.data.date] += (r.data.amount || 0); });
+  purchases.forEach(r => { if (outByDay[r.data.date] !== undefined) outByDay[r.data.date] += (r.data.total || 0); });
+  try {
+    if (chartCashflowTrend) chartCashflowTrend.destroy();
+    if (typeof Chart !== 'undefined') {
+      chartCashflowTrend = new Chart(document.getElementById('chartCashflowTrend'), { type: 'line', data: { labels: daysBack7.map(d => d.slice(5)), datasets: [
+        { label: 'In', data: daysBack7.map(d => inByDay[d]), borderColor: '#2f6d4f', backgroundColor: 'rgba(47,109,79,.1)', fill: true, tension: .3 },
+        { label: 'Out', data: daysBack7.map(d => outByDay[d]), borderColor: '#a4372f', backgroundColor: 'rgba(164,55,47,.1)', fill: true, tension: .3 }
+      ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, labels: { boxWidth: 10 } } } } });
+    } else { document.getElementById('chartCashflowTrend').closest('.chart-box').innerHTML = '<p class="muted center" style="padding-top:80px">Chart unavailable offline.</p>'; }
+  } catch (e) { /* never let a chart failure break the rest of the dashboard */ }
+
+  // Top Products by Revenue
+  const prodRevD = {};
+  sales.forEach(r => { prodRevD[r.data.product] = (prodRevD[r.data.product] || 0) + (r.data.total || 0); });
+  const topProdD = Object.entries(prodRevD).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  try {
+    if (chartTopProducts) chartTopProducts.destroy();
+    if (typeof Chart !== 'undefined') {
+      chartTopProducts = new Chart(document.getElementById('chartTopProducts'), { type: 'bar', data: { labels: topProdD.map(([n]) => n), datasets: [{ label: 'Revenue', data: topProdD.map(([, v]) => v), backgroundColor: '#c69a3d' }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+    } else { document.getElementById('chartTopProducts').closest('.chart-box').innerHTML = '<p class="muted center" style="padding-top:80px">Chart unavailable offline.</p>'; }
+  } catch (e) { /* same */ }
+
+  // Receivables vs Payables donut
+  try {
+    if (chartDebtOverview) chartDebtOverview.destroy();
+    if (typeof Chart !== 'undefined') {
+      chartDebtOverview = new Chart(document.getElementById('chartDebtOverview'), { type: 'doughnut', data: { labels: ['You are owed', 'You owe'], datasets: [{ data: [totalReceivable, totalPayable], backgroundColor: ['#2f6d4f', '#a4372f'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom', labels: { boxWidth: 10 } } } } });
+    } else { document.getElementById('chartDebtOverview').closest('.chart-box').innerHTML = '<p class="muted center" style="padding-top:60px">Chart unavailable offline.</p>'; }
+  } catch (e) { /* same */ }
+
+  const activity = [...sales.map(r => ({ t: r.updatedAt, icon: 'bi-cart-check', color: '#eaf3ee', text: `Sale to ${r.data.customer} — ${ngn(r.data.total)}` })),
+    ...expenses.map(r => ({ t: r.updatedAt, icon: 'bi-wallet2', color: '#fdf2ef', text: `Expense — ${r.data.category} (${ngn(r.data.amount)})` }))]
+    .sort((a, b) => b.t.localeCompare(a.t)).slice(0, 10);
+  document.getElementById('activityFeed').innerHTML = activity.length ? activity.map(a => `<div class="activity-item"><div class="activity-icon" style="background:${a.color}"><i class="bi ${a.icon}"></i></div><div><div>${a.text}</div><div class="text-muted small">${new Date(a.t).toLocaleString()}</div></div></div>`).join('') : '<p class="text-muted">No activity yet — start by recording a sale or expense.</p>';
+
+  // Business Health Snapshot — a handful of at-a-glance ratios computed from the same records
+  const grossMargin = revenue > 0 ? Math.round(((revenue - purchases.reduce((s, r) => s + (r.data.total || 0), 0)) / revenue) * 100) : null;
+  const collectionRate = (revenue > 0) ? Math.round(((revenue - totalReceivable) / revenue) * 100) : null;
+  const healthRows = [
+    { label: 'Gross margin (est.)', value: grossMargin === null ? '—' : grossMargin + '%', ok: grossMargin === null || grossMargin >= 20 },
+    { label: 'Collection rate', value: collectionRate === null ? '—' : collectionRate + '%', ok: collectionRate === null || collectionRate >= 80 },
+    { label: 'Low stock items', value: String(lowStock.length), ok: lowStock.length === 0 },
+    { label: 'Outstanding you owe', value: ngn(totalPayable), ok: totalPayable === 0 },
+  ];
+  document.getElementById('healthSnapshot').innerHTML = healthRows.map(h => `
+    <div class="d-flex justify-content-between align-items-center kpi-mini" style="border:1px solid var(--line);border-radius:8px;padding:.5rem .7rem">
+      <span class="lbl" style="font-size:.82rem;color:#8a8570">${h.label}</span>
+      <span class="val fw-semibold" style="color:${h.ok ? '#2f6d4f' : '#a4372f'}">${h.value}</span>
+    </div>`).join('');
+}
+
+// =====================================================================
+// SCAN BARCODE — hardware scanner or camera → confirm/edit → save to Inventory
+// =====================================================================
+function renderScanSection() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-upc-scan"></i> Scan a Product</div>
+    <div class="section-sub">Use a USB/Bluetooth barcode scanner — scan into the box below like a keyboard — or your device camera.</div>
+    <div class="card" style="max-width:520px"><div class="card-body">
+      <label class="form-label">Barcode</label>
+      <input class="form-control mb-3" id="scanInput" placeholder="Scan or type a barcode, then press Enter" autofocus>
+      <button class="btn btn-outline-secondary w-100" id="camToggle">${barcodeDetectorSupported() ? 'Use camera' : 'Camera scanning not supported on this browser'}</button>
+      <video id="scanVideo" playsinline style="width:100%;border-radius:10px;margin-top:12px;display:none;background:#000"></video>
+    </div></div>`;
+  const input = document.getElementById('scanInput');
+  input.focus();
+  wireHardwareScannerInput(input, (code) => handleScannedCode(code));
+  const camBtn = document.getElementById('camToggle');
+  const video = document.getElementById('scanVideo');
+  let camOn = false;
+  camBtn.addEventListener('click', async () => {
+    if (!barcodeDetectorSupported()) { toast('Camera scanning needs Chrome on Android — use the barcode box instead.', 'error'); return; }
+    camOn = !camOn;
+    if (camOn) { video.style.display = 'block'; await startCameraScan(video, (code) => { handleScannedCode(code); camOn = false; video.style.display = 'none'; }, () => toast('Could not access camera', 'error')); }
+    else { stopCameraScan(video); video.style.display = 'none'; }
+  });
+}
+async function handleScannedCode(code) {
+  const existing = await findProductByBarcode(code);
+  await openProductModal(existing ? existing.recordId : undefined);
+  if (!existing) document.getElementById('pf_barcode').value = code;
+  document.getElementById('recordModalTitle').textContent = existing ? 'Product found — confirm details' : 'New product from scan';
+}
+
+// =====================================================================
+// POINT OF SALE — cart with customer + partial payment, generates real
+// Sale records (one per line item, payment allocated proportionally) and
+// deducts stock automatically. Same as Debts/Reports/Dashboard, this is
+// the exact same 'Sale' record type used everywhere else in the system.
+// =====================================================================
+let posCart = [];
+function loadPosCart() { try { posCart = JSON.parse(sessionStorage.getItem('okv_pos_cart') || '[]'); } catch (e) { posCart = []; } }
+function savePosCart() { sessionStorage.setItem('okv_pos_cart', JSON.stringify(posCart)); }
+
+async function renderPosSection() {
+  loadPosCart();
+  const host = document.getElementById('panelHost');
+  const products = await getProducts();
+  const customers = await namesOfType('Customer');
+  host.innerHTML = `
+    <div class="section-title"><i class="bi bi-shop"></i> Point of Sale</div>
+    <div class="section-sub">Ring up a sale — add one or several items, take payment, and print the receipt.</div>
+    <div class="row g-3">
+      <div class="col-lg-7">
+        <div class="card mb-3"><div class="card-body">
+          <label class="form-label">Scan Barcode to Sell</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="bi bi-upc-scan"></i></span>
+            <input class="form-control" id="posScanInput" placeholder="Scan or type a barcode, then press Enter">
+            <button class="btn btn-outline-secondary" id="posCamToggle" type="button">${barcodeDetectorSupported() ? 'Camera' : 'No camera support'}</button>
+          </div>
+          <video id="posScanVideo" playsinline style="width:100%;border-radius:10px;margin-bottom:12px;display:none;background:#000"></video>
+          <label class="form-label">Or Pick a Product</label>
+          <div class="row g-2 align-items-end">
+            <div class="col-12 col-md-5"><input class="form-control" id="posProduct" list="dl_posProduct" placeholder="Type or pick a product">
+              <datalist id="dl_posProduct">${products.map(p => `<option value="${p.data.name.replace(/"/g, '&quot;')}">`).join('')}</datalist></div>
+            <div class="col-6 col-md-2"><label class="form-label small mb-1">Qty</label><input type="number" class="form-control" id="posQty" value="1" min="1"></div>
+            <div class="col-6 col-md-3"><label class="form-label small mb-1">Unit Price</label><input type="number" class="form-control" id="posPrice" value="0"></div>
+            <div class="col-12 col-md-2"><button class="btn btn-navy w-100" id="posAddBtn"><i class="bi bi-plus-lg"></i> Add</button></div>
+          </div>
+        </div></div>
+        <div class="card"><div class="card-header card-header-line">Cart</div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0" id="posCartTable"></table></div></div></div>
+      </div>
+      <div class="col-lg-5"><div class="card"><div class="card-body">
+        <label class="form-label">Customer</label>
+        <input class="form-control mb-3" id="posCustomer" list="dl_posCustomer" placeholder="Walk-in Customer">
+        <datalist id="dl_posCustomer">${customers.map(n => `<option value="${n.replace(/"/g, '&quot;')}">`).join('')}</datalist>
+        <label class="form-label">Cashier Name <span class="text-muted small">(optional)</span></label>
+        <input class="form-control mb-3" id="posCashier" placeholder="e.g. Chidinma">
+        <div class="d-flex justify-content-between mb-1"><span>Cart Total</span><span class="tnum fw-semibold" id="posCartTotal">${ngn(0)}</span></div>
+        <label class="form-label mt-2">Amount Paid</label>
+        <input type="number" class="form-control mb-2" id="posPaid" value="0">
+        <label class="form-label">Payment Method</label>
+        <select class="form-select mb-3" id="posMethod"><option>Cash</option><option>Bank Transfer</option><option>POS/Card</option><option>Mobile Money</option></select>
+        <div class="d-flex justify-content-between small text-muted"><span>Balance</span><span class="tnum" id="posBalance">${ngn(0)}</span></div>
+        <div class="d-flex justify-content-between small text-muted mb-3"><span>Status</span><span id="posStatus">—</span></div>
+        <button class="btn btn-gold w-100" id="posCompleteBtn"><i class="bi bi-check2-circle"></i> Complete Sale &amp; Print Receipt</button>
+        <button class="btn btn-outline-secondary w-100 mt-2" id="posClearBtn"><i class="bi bi-x-circle"></i> Clear Cart</button>
+      </div></div></div>
+    </div>`;
+  document.getElementById('posProduct').addEventListener('input', () => {
+    const p = products.find(x => x.data.name.toLowerCase() === document.getElementById('posProduct').value.trim().toLowerCase());
+    if (p) document.getElementById('posPrice').value = p.data.price || 0;
+  });
+  document.getElementById('posAddBtn').addEventListener('click', addToCart);
+  document.getElementById('posPaid').addEventListener('input', updatePosSummary);
+  document.getElementById('posClearBtn').addEventListener('click', clearCart);
+  document.getElementById('posCompleteBtn').addEventListener('click', completeSale);
+  const posScanInput = document.getElementById('posScanInput');
+  posScanInput.focus();
+  wireHardwareScannerInput(posScanInput, (code) => handlePosScannedCode(code));
+  const posCamBtn = document.getElementById('posCamToggle');
+  const posVideo = document.getElementById('posScanVideo');
+  let posCamOn = false;
+  posCamBtn.addEventListener('click', async () => {
+    if (!barcodeDetectorSupported()) { toast('Camera scanning needs Chrome on Android — use the barcode box instead.', 'error'); return; }
+    posCamOn = !posCamOn;
+    if (posCamOn) { posVideo.style.display = 'block'; await startCameraScan(posVideo, (code) => { handlePosScannedCode(code); posCamOn = false; posVideo.style.display = 'none'; }, () => toast('Could not access camera', 'error')); }
+    else { stopCameraScan(posVideo); posVideo.style.display = 'none'; }
+  });
+  renderCart();
+}
+async function handlePosScannedCode(code) {
+  const match = await findProductByBarcode(code);
+  const posScanInput = document.getElementById('posScanInput');
+  if (posScanInput) posScanInput.value = '';
+  if (!match) { toast('No product with that barcode yet — add it from Inventory / Stock first.', 'error'); return; }
+  const price = Number(match.data.price || 0);
+  const existing = posCart.find(i => i.product.toLowerCase() === match.data.name.toLowerCase());
+  if (existing) { existing.qty += 1; existing.total = existing.qty * existing.unitPrice; }
+  else posCart.push({ product: match.data.name, qty: 1, unitPrice: price, total: price });
+  savePosCart(); renderCart();
+  toast(`${match.data.name} added to cart.`, 'ok');
+}
+function addToCart() {
+  const name = document.getElementById('posProduct').value.trim();
+  const qty = Number(document.getElementById('posQty').value || 0);
+  const price = Number(document.getElementById('posPrice').value || 0);
+  if (!name) { toast('Enter or pick a product first.', 'error'); return; }
+  if (qty <= 0) { toast('Quantity must be at least 1.', 'error'); return; }
+  posCart.push({ product: name, qty, unitPrice: price, total: qty * price });
+  document.getElementById('posProduct').value = ''; document.getElementById('posQty').value = '1'; document.getElementById('posPrice').value = '0';
+  document.getElementById('posProduct').focus();
+  savePosCart(); renderCart();
+}
+function removeFromCart(idx) { posCart.splice(idx, 1); savePosCart(); renderCart(); }
+function cartTotal() { return posCart.reduce((a, i) => a + i.total, 0); }
+function renderCart() {
+  const table = document.getElementById('posCartTable');
+  let tbody = posCart.length ? posCart.map((item, idx) => `<tr><td>${item.product}</td><td class="tnum">${item.qty}</td><td class="tnum">${ngn(item.unitPrice)}</td><td class="tnum">${ngn(item.total)}</td><td><button class="btn btn-sm btn-outline-danger" data-rm="${idx}"><i class="bi bi-trash"></i></button></td></tr>`).join('') : '<tr><td colspan="5" class="text-center text-muted py-4">Cart is empty — add a product above.</td></tr>';
+  table.innerHTML = '<thead><tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Total</th><th></th></tr></thead><tbody>' + tbody + '</tbody>';
+  table.querySelectorAll('[data-rm]').forEach(b => b.addEventListener('click', () => removeFromCart(Number(b.dataset.rm))));
+  updatePosSummary();
+}
+function updatePosSummary() {
+  const total = cartTotal();
+  const paid = Number(document.getElementById('posPaid').value || 0);
+  const balance = total - paid;
+  document.getElementById('posCartTotal').textContent = ngn(total);
+  document.getElementById('posBalance').textContent = ngn(Math.max(balance, 0));
+  document.getElementById('posStatus').innerHTML = total <= 0 ? '—' : statusBadgeHtml(balance <= 0 ? 'Paid' : (paid > 0 ? 'Partial' : 'Unpaid'));
+}
+function clearCart() { posCart = []; savePosCart(); document.getElementById('posPaid').value = 0; document.getElementById('posCustomer').value = ''; document.getElementById('posCashier').value = ''; renderCart(); }
+async function completeSale() {
+  if (posCart.length === 0) { toast('Cart is empty.', 'error'); return; }
+  const customer = document.getElementById('posCustomer').value.trim() || 'Walk-in Customer';
+  const cashier = document.getElementById('posCashier').value.trim();
+  const total = cartTotal();
+  const paidTotal = Math.min(Number(document.getElementById('posPaid').value || 0), total);
+  const date = todayStr();
+  await ensureContactExists('Customer', customer);
+  let allocated = 0;
+  const savedIds = [];
+  for (let idx = 0; idx < posCart.length; idx++) {
+    const item = posCart[idx];
+    const share = idx === posCart.length - 1 ? (paidTotal - allocated) : Math.round((item.total / total) * paidTotal);
+    allocated += share;
+    const balance = item.total - share;
+    const status = balance <= 0 ? 'Paid' : (share > 0 ? 'Partial' : 'Unpaid');
+    const recId = await saveLocalRecord('Sale', { date, customer, product: item.product, qty: item.qty, unitPrice: item.unitPrice, total: item.total, paid: share, balance, status, cashier });
+    savedIds.push(recId);
+    const prod = (await getProducts()).find(p => p.data.name.toLowerCase() === item.product.toLowerCase());
+    if (prod) await saveProduct({ ...prod.data, qty: Math.max(0, Number(prod.data.qty || 0) - item.qty) }, prod.recordId);
+  }
+  if (navigator.onLine) syncNow(true);
+  toast('Sale completed.', 'ok');
+  await openPrintDoc('Sale', savedIds[0]);
+  clearCart();
+}
+
+// =====================================================================
+// INSIGHTS & REPORTS — daily/weekly/monthly/yearly, real Chart.js charts
+// computed from real records (no fake data).
+// =====================================================================
+let reportPeriod = 'weekly';
+let chartInsights = null, chartInsightsExpense = null, chartCashflowTrend = null, chartTopProducts = null, chartDebtOverview = null;
+function periodStart(period) {
+  const d = new Date();
+  if (period === 'daily') d.setHours(0, 0, 0, 0);
+  else if (period === 'weekly') d.setDate(d.getDate() - 7);
+  else if (period === 'monthly') d.setDate(d.getDate() - 30);
+  else d.setFullYear(d.getFullYear() - 1);
+  return d.toISOString().slice(0, 10);
+}
+async function downloadInsightsCSV(period) {
+  const since = periodStart(period);
+  const today = todayStr();
+  const [sales, purchases, expenses, income] = await Promise.all(
+    ['Sale', 'Purchase', 'Expense', 'Income'].map(async (t) => (await recordsOfType(t)).filter(r => r.data.date >= since))
+  );
+  const salesTotal = sales.reduce((s, r) => s + (r.data.total || 0), 0);
+  const purchasesTotal = purchases.reduce((s, r) => s + (r.data.total || 0), 0);
+  const expensesTotal = expenses.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const incomeTotal = income.reduce((s, r) => s + (r.data.amount || 0), 0);
+  const netProfit = (salesTotal + incomeTotal) - (purchasesTotal + expensesTotal);
+
+  let rows = [['Type', 'Date', 'Party', 'Detail', 'Amount']];
+  sales.forEach(r => rows.push(['Sale', r.data.date, r.data.customer || '', `${r.data.product || ''} x${r.data.qty || ''}`, r.data.total || 0]));
+  purchases.forEach(r => rows.push(['Purchase', r.data.date, r.data.supplier || '', `${r.data.product || ''} x${r.data.qty || ''}`, r.data.total || 0]));
+  expenses.forEach(r => rows.push(['Expense', r.data.date, '', r.data.category || '', r.data.amount || 0]));
+  income.forEach(r => rows.push(['Income', r.data.date, '', r.data.source || '', r.data.amount || 0]));
+  rows.push(['', '', '', '', '']);
+  rows.push(['Total Sales', '', '', '', salesTotal]);
+  rows.push(['Total Purchases', '', '', '', purchasesTotal]);
+  rows.push(['Total Expenses', '', '', '', expensesTotal]);
+  rows.push(['Total Other Income', '', '', '', incomeTotal]);
+  rows.push(['Net Profit', '', '', '', netProfit]);
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${period}-report-${since}-to-${today}.csv`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  toast('Report downloaded as CSV.', 'ok');
+}
+async function renderReportsSection() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+      <div><div class="section-title">Insights &amp; Reports</div><div class="section-sub">Real-time performance report, broken down by period. Recalculates instantly from your live records.</div></div>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-gold" id="repDownloadCsv"><i class="bi bi-download"></i> Download CSV</button>
+        <span class="badge bg-success-subtle text-success border border-success-subtle"><span class="live-dot"></span>Live</span>
+      </div>
+    </div>
+    <ul class="nav nav-pills nav-pills-sm mb-3" id="repTabs">${['daily', 'weekly', 'monthly', 'yearly'].map(p => `<li class="nav-item"><a class="nav-link ${reportPeriod === p ? 'active' : ''}" data-period="${p}">${p[0].toUpperCase() + p.slice(1)}</a></li>`).join('')}</ul>
+    <div class="row g-3 mb-3" id="insightsStats"></div>
+    <div class="row g-3 mb-3">
+      <div class="col-lg-7"><div class="card h-100"><div class="card-header card-header-line">Sales Trend</div><div class="card-body"><div class="chart-box"><canvas id="chartInsights"></canvas></div></div></div></div>
+      <div class="col-lg-5"><div class="card h-100"><div class="card-header card-header-line">Where the Money Went (Expenses)</div><div class="card-body"><div class="chart-box"><canvas id="chartInsightsExpense"></canvas></div></div></div></div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6"><div class="card"><div class="card-header card-header-line">Top Selling Products</div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0" id="repTopProducts"></table></div></div></div></div>
+      <div class="col-md-6"><div class="card"><div class="card-header card-header-line">Best Customers</div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover mb-0" id="repTopCustomers"></table></div></div></div></div>
+    </div>`;
+  document.querySelectorAll('#repTabs [data-period]').forEach(t => t.addEventListener('click', () => { reportPeriod = t.dataset.period; renderReportsSection(); }));
+  document.getElementById('repDownloadCsv').addEventListener('click', () => downloadInsightsCSV(reportPeriod));
+
+  const since = periodStart(reportPeriod);
+  const sales = (await recordsOfType('Sale')).filter(r => r.data.date >= since);
+  const expenses = (await recordsOfType('Expense')).filter(r => r.data.date >= since);
+  const purchases = (await recordsOfType('Purchase')).filter(r => r.data.date >= since);
+  const income = (await recordsOfType('Income')).filter(r => r.data.date >= since);
+  const revenue = sales.reduce((s, r) => s + (r.data.total || 0), 0);
+  const totalExp = expenses.reduce((s, r) => s + (r.data.amount || 0), 0);
+  document.getElementById('insightsStats').innerHTML = `
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">${ngn(revenue)}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Sales Count</div><div class="stat-value">${sales.length}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Expenses</div><div class="stat-value">${ngn(totalExp)}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Net</div><div class="stat-value">${ngn(revenue - totalExp)}</div></div></div>`;
+
+  // sales trend by day — wrapped: if Chart.js failed to load (e.g. all three CDNs
+  // blocked on a bad connection), skip just the chart rather than breaking the
+  // tables below, which don't depend on it.
+  const byDay = {};
+  sales.forEach(r => { byDay[r.data.date] = (byDay[r.data.date] || 0) + r.data.total; });
+  const days = Object.keys(byDay).sort();
+  try {
+    if (chartInsights) chartInsights.destroy();
+    if (typeof Chart !== 'undefined') {
+      chartInsights = new Chart(document.getElementById('chartInsights'), { type: 'line', data: { labels: days, datasets: [{ label: 'Sales', data: days.map(d => byDay[d]), borderColor: '#16223d', backgroundColor: 'rgba(22,34,61,.1)', fill: true, tension: .3 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+    } else {
+      document.getElementById('chartInsights').closest('.chart-box').innerHTML = '<p class="muted center" style="padding-top:80px">Chart unavailable offline.</p>';
+    }
+  } catch (e) { /* chart is a visual extra — never let it block the rest of the report */ }
+
+  // expense breakdown pie
+  const byCat = {};
+  expenses.forEach(r => { byCat[r.data.category] = (byCat[r.data.category] || 0) + r.data.amount; });
+  try {
+    if (chartInsightsExpense) chartInsightsExpense.destroy();
+    if (typeof Chart !== 'undefined') {
+      chartInsightsExpense = new Chart(document.getElementById('chartInsightsExpense'), { type: 'doughnut', data: { labels: Object.keys(byCat), datasets: [{ data: Object.values(byCat), backgroundColor: ['#c69a3d', '#16223d', '#2f6d4f', '#a4372f', '#7e8bab', '#e9d4a3'] }] }, options: { responsive: true, maintainAspectRatio: false } });
+    } else {
+      document.getElementById('chartInsightsExpense').closest('.chart-box').innerHTML = '<p class="muted center" style="padding-top:80px">Chart unavailable offline.</p>';
+    }
+  } catch (e) { /* same — degrade gracefully */ }
+
+  // top products by revenue
+  const prodRev = {};
+  sales.forEach(r => { prodRev[r.data.product] = (prodRev[r.data.product] || 0) + r.data.total; });
+  const topProducts = Object.entries(prodRev).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  document.getElementById('repTopProducts').innerHTML = '<thead><tr><th>Product</th><th>Revenue</th></tr></thead><tbody>' + (topProducts.length ? topProducts.map(([n, v]) => `<tr><td>${n}</td><td class="tnum">${ngn(v)}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted py-3">No sales in this period.</td></tr>') + '</tbody>';
+
+  // top customers
+  const custRev = {};
+  sales.forEach(r => { custRev[r.data.customer] = (custRev[r.data.customer] || 0) + r.data.total; });
+  const topCustomers = Object.entries(custRev).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  document.getElementById('repTopCustomers').innerHTML = '<thead><tr><th>Customer</th><th>Total Spent</th></tr></thead><tbody>' + (topCustomers.length ? topCustomers.map(([n, v]) => `<tr><td>${n}</td><td class="tnum">${ngn(v)}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted py-3">No sales in this period.</td></tr>') + '</tbody>';
+}
+
+// =====================================================================
+// PORTED FROM THE PREVIOUS DASHBOARD — same real backend calls (Team,
+// Invite link, Messages, Subscription, User manual, Account), restyled
+// into the new shell via the compatibility CSS shim above. Aliased into
+// SECTION_RENDERERS so the sidebar can call them directly.
+// =====================================================================
+async function renderTeamTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = '<p class="muted">Loading team…</p>';
+  const res = await apiCall('getUsers', {});
+  if (!res.ok) { host.innerHTML = '<p class="err">' + (res.error || 'Could not load users.') + '</p>'; return; }
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">Add a team member</h3>
+      <div class="okv-row">
+        <div><label>Username</label><input id="nuUsername"></div>
+        <div><label>Email <span class="muted">(optional)</span></label><input id="nuEmail"></div>
+      </div>
+      <div class="okv-row">
+        <div><label>Password</label><input id="nuPassword" type="password"></div>
+      </div>
+      <label>Roles</label>
+      <div id="nuRoles">${roleCheckboxes('nu')}</div>
+      <button class="btn-primary" id="nuCreate">Create user</button>
+      <div id="nuMsg"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Your team</h3>
+      <div class="table-scroll"><table><thead><tr><th>User</th><th>Roles</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="teamRows"></tbody></table></div>
+    </div>`;
+
+  document.getElementById('nuCreate').addEventListener('click', async () => {
+    const msg = document.getElementById('nuMsg');
+    const username = document.getElementById('nuUsername').value.trim();
+    const email = document.getElementById('nuEmail').value.trim();
+    const password = document.getElementById('nuPassword').value;
+    const roles = getCheckedRoles('nu');
+    if (!username || !password) { msg.innerHTML = '<div class="err">Username and password are required.</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to add team members.</div>'; return; }
+    msg.innerHTML = '<div class="muted">Creating…</div>';
+    const passwordHash = await sha256Hex(password);
+    const r = await apiCall('adminCreateUser', { username, email, passwordHash, roles });
+    if (r.ok) { toast('User created', 'ok'); renderTeamTab(); } else { msg.innerHTML = '<div class="err">' + r.error + '</div>'; }
+  });
+
+  const tbody = document.getElementById('teamRows');
+  tbody.innerHTML = res.users.map(u => `
+    <tr>
+      <td><strong>${u.username}</strong><br><span class="muted">${u.email || ''}</span><br><span class="muted" style="font-size:11px">Added ${u.createdAt ? new Date(u.createdAt).toLocaleString() : '—'}</span></td>
+      <td>${u.roles.length ? u.roles.map(r => `<span class="pill">${r}</span>`).join('') : (u.isAdmin ? '<span class="pill">Admin</span>' : '<span class="muted">No roles yet</span>')}</td>
+      <td><span class="badge ${u.status}">${u.status}</span></td>
+      <td>
+        ${u.isAdmin ? '<span class="muted">—</span>' : `
+        <div class="okv-row" style="gap:6px;flex-wrap:wrap">
+          <button class="btn-outline btn-sm" data-edit="${u.userId}">Edit</button>
+          <button class="btn-outline btn-sm" data-pw="${u.userId}">Set password</button>
+          <button class="btn-outline btn-sm" data-status="${u.userId}" data-current="${u.status}">${u.status === 'active' ? 'Suspend' : 'Activate'}</button>
+          <button class="btn-danger btn-sm" data-del="${u.userId}">Delete</button>
+        </div>`}
+      </td>
+    </tr>`).join('');
+
+  tbody.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openEditRoles(b.dataset.edit, res.users)));
+  tbody.querySelectorAll('[data-pw]').forEach(b => b.addEventListener('click', () => openSetPassword(b.dataset.pw)));
+  tbody.querySelectorAll('[data-status]').forEach(b => b.addEventListener('click', async () => {
+    const newStatus = b.dataset.current === 'active' ? 'suspended' : 'active';
+    const r = await apiCall('adminSetUserStatus', { userId: b.dataset.status, status: newStatus });
+    if (r.ok) { toast(r.message, 'ok'); renderTeamTab(); } else toast(r.error, 'error');
+  }));
+  tbody.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this user? This cannot be undone.')) return;
+    const r = await apiCall('adminDeleteUser', { userId: b.dataset.del });
+    if (r.ok) { toast('User deleted', 'ok'); renderTeamTab(); } else toast(r.error, 'error');
+  }));
+}
+
+function roleCheckboxes(prefix, checked) {
+  checked = checked || [];
+  return ROLES.map(r => `<label style="font-weight:400;display:flex;align-items:center;gap:8px;margin:6px 0">
+    <input type="checkbox" value="${r}" data-role-${prefix}="1" ${checked.indexOf(r) !== -1 ? 'checked' : ''}> ${r}</label>`).join('');
+}
+function getCheckedRoles(prefix) {
+  return Array.from(document.querySelectorAll(`[data-role-${prefix}]:checked`)).map(el => el.value);
+}
+
+function openEditRoles(userId, users) {
+  const u = users.find(x => x.userId === userId);
+  const modal = openModal(`<h3 style="margin-top:0">Edit user — ${u.username}</h3>
+    <label>Email</label><input id="erEmail" value="${u.email || ''}" placeholder="Optional">
+    <label>Roles</label>
+    <div id="erRoles">${roleCheckboxes('er', u.roles)}</div>
+    <div class="okv-row"><button class="btn-outline" id="erCancel">Cancel</button><button class="btn-primary" id="erSave" style="margin-top:0">Save</button></div>
+    <div id="erMsg"></div>`);
+  modal.querySelector('#erCancel').addEventListener('click', () => closeModal(modal));
+  modal.querySelector('#erSave').addEventListener('click', async () => {
+    const roles = getCheckedRoles('er');
+    const email = modal.querySelector('#erEmail').value.trim();
+    const r = await apiCall('adminEditUser', { userId, email, roles });
+    if (r.ok) { toast('User updated', 'ok'); closeModal(modal); renderTeamTab(); } else modal.querySelector('#erMsg').innerHTML = '<div class="err">' + r.error + '</div>';
+  });
+}
+
+function openSetPassword(userId) {
+  const modal = openModal(`<h3 style="margin-top:0">Set new password</h3>
+    <label>New password</label><input type="password" id="spPw" minlength="6">
+    <div class="okv-row"><button class="btn-outline" id="spCancel">Cancel</button><button class="btn-primary" id="spSave" style="margin-top:0">Save</button></div>
+    <div id="spMsg"></div>`);
+  modal.querySelector('#spCancel').addEventListener('click', () => closeModal(modal));
+  modal.querySelector('#spSave').addEventListener('click', async () => {
+    const pw = modal.querySelector('#spPw').value;
+    if (!pw || pw.length < 6) { modal.querySelector('#spMsg').innerHTML = '<div class="err">Minimum 6 characters.</div>'; return; }
+    const newPasswordHash = await sha256Hex(pw);
+    const r = await apiCall('adminSetUserPassword', { userId, newPasswordHash });
+    if (r.ok) { toast('Password updated for that user', 'ok'); closeModal(modal); } else modal.querySelector('#spMsg').innerHTML = '<div class="err">' + r.error + '</div>';
+  });
+}
+
+const renderTeamSection = renderTeamTab;
+
+function renderInviteTab() {
+  const host = document.getElementById('panelHost');
+  const link = window.location.origin + window.location.pathname.replace('dashboard.html', 'install.html');
+  host.innerHTML = `
+    <div class="card">
+      <h3 style="margin-top:0">Share with your team</h3>
+      <p class="muted">Send this link to a user. It opens an install-only page — no login shown until the app is installed — then takes them straight to the login screen. Give them their username and password separately.</p>
+      <div class="link-box" id="inviteLink">${link}</div>
+      <div class="okv-row" style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn-primary" style="margin-top:0" id="copyLink">Copy link</button>
+        <a class="btn-outline btn-sm" style="margin-top:0" target="_blank" href="${link}">Open link</a>
+        <button class="btn-outline btn-sm" style="margin-top:0;display:none" id="shareLink">Share…</button>
+      </div>
+      <div id="inviteMsg" class="muted" style="margin-top:8px;font-size:12.5px"></div>
+    </div>`;
+  if (navigator.share) document.getElementById('shareLink').style.display = 'inline-block';
+  document.getElementById('copyLink').addEventListener('click', async () => {
+    const msgEl = document.getElementById('inviteMsg');
+    msgEl.textContent = '';
+    try {
+      if (!navigator.clipboard || !window.isSecureContext) throw new Error('clipboard unavailable');
+      await navigator.clipboard.writeText(link);
+      toast('Link copied', 'ok');
+    } catch (e) {
+      const box = document.getElementById('inviteLink');
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(box);
+        const sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(range);
+      } catch (e2) { /* selection API unavailable — the visible link text is still there to copy by hand */ }
+      msgEl.textContent = "Couldn't copy automatically — the link above is now selected, press Ctrl+C (or Cmd+C) to copy it.";
+    }
+  });
+  if (navigator.share) {
+    document.getElementById('shareLink').addEventListener('click', () => {
+      navigator.share({ title: 'Install OKV Business Tracking System', text: 'Install the app here:', url: link }).catch(() => { /* user cancelled the share sheet — not an error */ });
+    });
+  }
+}
+
+const renderInviteSection = renderInviteTab;
+
+const CUSTOMER_MESSAGING_ROLES = ['Business Manager', 'Sales / POS Officer', 'Accountant / Finance Officer'];
+function canMessageCustomers() { return session.isAdmin || (session.roles || []).some(r => CUSTOMER_MESSAGING_ROLES.indexOf(r) !== -1); }
+let messagesSubTab = 'chat';
+
+async function renderMessagesTab() {
+  const host = document.getElementById('panelHost');
+  const showCustomerTab = canMessageCustomers();
+  host.innerHTML = `
+    <div class="tabs" style="background:transparent;padding:0 0 14px;margin:0" id="msgSubTabs"></div>
+    <div id="msgSubHost"></div>`;
+  const subTabsEl = document.getElementById('msgSubTabs');
+  subTabsEl.style.cssText = 'display:flex;gap:6px;padding:0 0 14px;background:transparent';
+  const subs = [['chat', 'Team chat']];
+  if (showCustomerTab) subs.push(['customers', 'Customers & suppliers']);
+  function drawSubTabs() {
+    subTabsEl.innerHTML = subs.map(([id, label]) =>
+      `<button data-sub="${id}" class="btn-sm ${messagesSubTab === id ? 'btn-primary' : 'btn-outline'}" style="margin-top:0">${label}</button>`).join('');
+    subTabsEl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { messagesSubTab = b.dataset.sub; drawSubTabs(); drawSub(); }));
+  }
+  function drawSub() {
+    if (messagesSubTab === 'customers' && showCustomerTab) renderCustomerMessaging();
+    else renderTeamChat();
+  }
+  drawSubTabs(); drawSub();
+}
+
+async function renderTeamChat() {
+  const host = document.getElementById('msgSubHost');
+  host.innerHTML = '<p class="muted">Loading messages…</p>';
+  const [teamRes, msgRes] = await Promise.all([apiCall('getTeamNames', {}), apiCall('getInternalMessages', {})]);
+  const teammates = (teamRes.ok ? teamRes.names : []).filter(t => t.userId !== session.userId);
+  const messages = msgRes.ok ? msgRes.messages : [];
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Send a message</h3>
+      <label>To</label>
+      <select id="chatTo"><option value="">Everyone (broadcast)</option>${teammates.map(t => `<option value="${t.userId}">${t.username}</option>`).join('')}</select>
+      <label>Message</label>
+      <textarea id="chatBody" rows="3"></textarea>
+      <button class="btn-primary" id="chatSend">Send</button>
+      <div id="chatMsg"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Conversation</h3>
+      <div id="chatFeed" style="display:flex;flex-direction:column;gap:10px;max-height:420px;overflow-y:auto">
+        ${messages.length ? messages.map(m => `
+          <div style="border-left:3px solid var(--teal);padding:6px 10px;background:${m.fromUserId === session.userId ? '#eaf3ee' : '#f2f0e7'};border-radius:8px">
+            <div style="font-size:12.5px"><strong>${m.fromUsername}</strong> ${m.toUserId ? '→ ' + m.toLabel : '<span class="pill">Everyone</span>'}</div>
+            <div style="margin:4px 0">${m.body}</div>
+            <div class="muted" style="font-size:11px">${new Date(m.createdAt).toLocaleString()}</div>
+          </div>`).join('') : '<p class="muted">No messages yet — say hello to your team.</p>'}
+      </div>
+    </div>`;
+
+  document.getElementById('chatSend').addEventListener('click', async () => {
+    const msg = document.getElementById('chatMsg');
+    const toUserId = document.getElementById('chatTo').value;
+    const body = document.getElementById('chatBody').value.trim();
+    if (!body) { msg.innerHTML = '<div class="err">Write a message first.</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to send messages.</div>'; return; }
+    const res = await apiCall('sendInternalMessage', { toUserId, body });
+    if (res.ok) { renderTeamChat(); } else msg.innerHTML = '<div class="err">' + res.error + '</div>';
+  });
+}
+
+async function renderCustomerMessaging() {
+  const host = document.getElementById('msgSubHost');
+  const contacts = (await idbGetAll('records')).filter(r => !r.deleted && (r.type === 'Customer' || r.type === 'Supplier'));
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Message customers or suppliers</h3>
+      <p class="muted">Add customers/suppliers as Records (type Customer/Supplier, with an email/phone) to message them from here — individually or all at once. Use <code>{name}</code> in your message to personalize it per recipient.</p>
+      <label>Send to</label>
+      <select id="cmRecipients" multiple size="5" style="height:auto">
+        ${contacts.length ? contacts.map(c => { const p = JSON.parse(c.payload || '{}'); return `<option value="${c.recordId}">${p.name || '(no name)'} — ${c.type}${p.email ? ' · ' + p.email : ''}${p.phone ? ' · ' + p.phone : ''}</option>`; }).join('') : '<option disabled>No customers/suppliers saved yet</option>'}
+      </select>
+      <p class="muted" style="font-size:12px;margin-top:4px">Tap/ctrl-click to select multiple, or select none to send to everyone.</p>
+      <label>Channel</label>
+      <select id="cmChannel"><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="sms">SMS</option></select>
+      <label>Subject <span class="muted">(email only)</span></label>
+      <input id="cmSubject">
+      <label>Message</label>
+      <textarea id="cmBody" rows="4" placeholder="Hi {name}, ..."></textarea>
+      <button class="btn-primary" id="cmSend">Send</button>
+      <div id="cmMsg"></div>
+    </div>`;
+
+  document.getElementById('cmSend').addEventListener('click', async () => {
+    const msg = document.getElementById('cmMsg');
+    const channel = document.getElementById('cmChannel').value;
+    const subject = document.getElementById('cmSubject').value.trim();
+    const body = document.getElementById('cmBody').value.trim();
+    if (!body) { msg.innerHTML = '<div class="err">Write a message first.</div>'; return; }
+    const picked = Array.from(document.getElementById('cmRecipients').selectedOptions).map(o => o.value);
+    const targets = (picked.length ? contacts.filter(c => picked.indexOf(c.recordId) !== -1) : contacts)
+      .map(c => { const p = JSON.parse(c.payload || '{}'); return { name: p.name, email: p.email, phone: p.phone }; });
+    if (!targets.length) { msg.innerHTML = '<div class="err">No customers/suppliers to send to.</div>'; return; }
+
+    if (channel === 'email') {
+      if (!subject) { msg.innerHTML = '<div class="err">Subject is required for email.</div>'; return; }
+      if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to send email.</div>'; return; }
+      const res = await apiCall('sendEmailMessage', { recipients: targets.filter(t => t.email), subject, body });
+      if (res.ok) msg.innerHTML = `<div class="ok">Sent to ${res.sent} of ${res.total}.${res.failed.length ? ' Failed: ' + res.failed.join(', ') : ''}</div>`;
+      else msg.innerHTML = '<div class="err">' + res.error + '</div>';
+    } else if (channel === 'whatsapp') {
+      const withPhone = targets.filter(t => t.phone);
+      if (!withPhone.length) { msg.innerHTML = '<div class="err">None of the selected contacts have a phone number.</div>'; return; }
+      if (navigator.onLine) {
+        const res = await apiCall('sendWhatsappMessage', { recipients: withPhone, body });
+        if (res.ok) { msg.innerHTML = `<div class="ok">Sent to ${res.sent} of ${res.total}.${res.failed.length ? ' Failed: ' + res.failed.join(', ') : ''}</div>`; return; }
+      }
+      msg.innerHTML = '<p class="muted">WhatsApp isn\'t configured for automatic sending yet — tap each contact below to open their chat with your message pre-filled:</p>' +
+        withPhone.map(t => `<a class="btn btn-outline btn-sm" style="margin:4px 6px 0 0" target="_blank" href="https://wa.me/${t.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(body.replace(/\{name\}/gi, t.name || 'there'))}">Send to ${t.name || t.phone}</a>`).join('');
+    } else {
+      if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to send SMS.</div>'; return; }
+      const res = await apiCall('sendSmsMessage', { recipients: targets.filter(t => t.phone), body });
+      msg.innerHTML = res.ok
+        ? `<div class="ok">Sent to ${res.sent} of ${res.total}.${res.failed.length ? ' Failed: ' + res.failed.join(', ') : ''}</div>`
+        : '<div class="err">' + res.error + '</div>';
+    }
+  });
+}
+
+const renderMessagesSection = renderMessagesTab;
+
+function renderSubscriptionTab() {
+  const host = document.getElementById('panelHost');
+  if (!lastSubscription) {
+    host.innerHTML = '<p class="muted">Loading subscription status…</p>';
+    apiCall('getSubscriptionStatus', {}).then(res => { if (res.ok) { lastSubscription = res.subscription; renderSubscriptionTab(); } });
+    return;
+  }
+  const s = lastSubscription;
+  const isTrial = s.billingState === 'trial';
+  const isPaid = s.billingState === 'paid';
+  const expiryText = s.expiry ? new Date(s.expiry).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  const startText = s.startDate ? new Date(s.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  const statusBadge = s.expired || !s.active
+    ? '<span class="badge suspended">' + (isTrial ? 'Trial ended' : 'Expired / inactive') + '</span>'
+    : (isTrial ? '<span class="badge active">Free trial</span>' : (s.daysLeft !== null && s.daysLeft <= NEAR_DUE_DAYS ? '<span class="badge suspended">Due soon</span>' : '<span class="badge active">Active</span>'));
+  const currentPlan = getPlanByLabel(s.plan) || PLAN_CATALOG[0];
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">${isTrial ? '7-day free trial' : 'Subscription status'}</h3>
+      <p>${statusBadge}</p>
+      <div class="table-scroll"><table>
+        <tr><th>Plan</th><td>${planDisplayName(s.plan)}</td></tr>
+        ${isPaid ? `<tr><th>Start date</th><td>${startText}</td></tr>` : ''}
+        <tr><th>${isTrial ? 'Trial ends' : 'Due date'}</th><td>${expiryText}</td></tr>
+        <tr><th>Time remaining</th><td>${friendlyDuration(s.daysLeft)}</td></tr>
+      </table></div>
+      ${isTrial ? '<p class="muted" style="margin-top:10px">You\'re on the house — no card was charged. Upgrade below any time to keep your team\'s access after the trial ends.</p>' : ''}
+      <p class="muted" style="margin-top:6px">Checked ${new Date().toLocaleString()}</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">${isTrial ? 'Upgrade to keep your access' : 'Renew or change your plan'}</h3>
+      <div class="okv-row" style="align-items:stretch;flex-wrap:wrap">
+        ${PLAN_CATALOG.filter(p => p.cycle === currentPlan.cycle).map(p => `
+          <div class="card" style="background:#f2f0e7;min-width:150px">
+            <h3 style="margin-top:0;font-size:16px">${p.tier}</h3>
+            <p class="muted" style="font-size:12px">${p.cycle}</p>
+            <p style="font-family:'Sora';font-weight:700;font-size:18px;margin:6px 0 2px">${p.priceLabel}</p>
+            <p class="muted" style="font-size:12px">${p.billedNote}</p>
+          </div>`).join('')}
+      </div>
+      <p class="center muted" style="margin:8px 0"><a href="pricing.html" target="_blank">See all 6 plans (monthly / bi-annual / yearly) →</a></p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">Pay to upgrade or renew</h3>
+      <p class="muted">1. Send payment for your chosen plan using one of the options below (or pay by card if available). 2. Fill in the form and upload your payment screenshot (skip this if you paid by card — that's confirmed automatically). 3. We'll email you a confirmation within the hour — once confirmed, your dashboard updates automatically with your new start date, due date, and time remaining.</p>
+
+      ${PAYSTACK_ENABLED ? `
+      <div class="card" style="background:#eaf3ee;margin-bottom:14px">
+        <h3 style="margin-top:0;font-size:15px">Pay by card (instant)</h3>
+        <label>Plan / tier</label>
+        <select id="paystackPlan">${PLAN_CATALOG.map(p => `<option value="${p.tier} · ${p.cycle}" data-id="${p.id}">${p.tier} · ${p.cycle} — ${p.priceLabel}</option>`).join('')}</select>
+        <button class="btn-gold" id="paystackPayBtn" style="margin-top:12px">Pay with card via Paystack</button>
+        <div id="paystackMsg"></div>
+      </div>` : ''}
+
+      ${MANUAL_PAYMENT_METHODS.length ? `
+      <p class="muted" style="margin:0 0 8px"><strong>Or pay by bank transfer</strong> to any of these accounts, then submit proof below:</p>
+      ${MANUAL_PAYMENT_METHODS.map(m => `
+        <div class="table-scroll" style="margin-bottom:10px"><table>
+          <tr><th colspan="2" style="background:#f2f0e7">${m.label || 'Bank transfer'}</th></tr>
+          <tr><th>Account number</th><td><strong>${m.accountNumber}</strong></td></tr>
+          <tr><th>Bank</th><td>${m.bank}</td></tr>
+          <tr><th>Account name</th><td>${m.accountName}</td></tr>
+          ${m.instructions ? `<tr><th>Note</th><td>${m.instructions}</td></tr>` : ''}
+        </table></div>`).join('')}
+      ` : '<p class="muted">No manual payment method is configured — use card payment above, or contact support.</p>'}
+
+      <div class="divider"></div>
+      <label>Business name</label><input id="payBusiness" value="${session.businessName || ''}">
+      <label>Email</label><input id="payEmail" type="email" value="${session.username || ''}">
+      <label>Phone</label><input id="payPhone" value="${session.phone || ''}">
+      <label>Plan / tier paid for</label>
+      <select id="payPlan">${PLAN_CATALOG.map(p => `<option value="${p.tier} · ${p.cycle}">${p.tier} · ${p.cycle} — ${p.priceLabel}</option>`).join('')}</select>
+      <label>Payment screenshot</label>
+      <input type="file" id="payScreenshot" accept="image/*">
+      <button class="btn-gold" id="paySubmit" style="margin-top:16px">Submit payment for confirmation</button>
+      <div id="payMsg"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">Your submission history</h3>
+      <div id="paySubmissions" class="table-scroll"><p class="muted">Loading…</p></div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">Need help?</h3>
+      <p class="muted" style="margin:0">${SUPPORT_EMAIL} · ${SUPPORT_PHONE} · ${SUPPORT_WEBSITE}</p>
+      <a class="btn btn-outline" style="margin-top:14px" href="mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent((isTrial ? 'Upgrade' : 'Renewal') + ' question - ' + (session.businessName || ''))}">Email us</a>
+    </div>`;
+
+  if (PAYSTACK_ENABLED) {
+    document.getElementById('paystackPayBtn').addEventListener('click', async () => {
+      const msg = document.getElementById('paystackMsg');
+      if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to pay by card.</div>'; return; }
+      const plan = document.getElementById('paystackPlan').value;
+      const btn = document.getElementById('paystackPayBtn');
+      btn.disabled = true; btn.textContent = 'Starting payment…';
+      const res = await apiCall('initPaystackPayment', { plan });
+      btn.disabled = false; btn.textContent = 'Pay with card via Paystack';
+      if (res.ok && res.authorizationUrl) window.location.href = res.authorizationUrl;
+      else msg.innerHTML = '<div class="err">' + (res.error || 'Could not start payment.') + '</div>';
+    });
+  }
+
+  document.getElementById('paySubmit').addEventListener('click', async () => {
+    const msg = document.getElementById('payMsg');
+    const businessName = document.getElementById('payBusiness').value.trim();
+    const email = document.getElementById('payEmail').value.trim();
+    const phone = document.getElementById('payPhone').value.trim();
+    const plan = document.getElementById('payPlan').value;
+    const file = document.getElementById('payScreenshot').files[0];
+    if (!businessName || !email || !phone || !plan) { msg.innerHTML = '<div class="err">Fill in every field.</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to submit your payment.</div>'; return; }
+    const btn = document.getElementById('paySubmit');
+    btn.disabled = true; btn.textContent = 'Submitting…';
+    let screenshotDataUrl = '';
+    if (file) { try { screenshotDataUrl = await compressImageToDataUrl(file, 900, 0.75); } catch (e) {} }
+    const res = await apiCall('submitPaymentProof', { businessName, email, phone, plan, screenshotDataUrl });
+    btn.disabled = false; btn.textContent = 'Submit payment for confirmation';
+    if (res.ok) { toast(res.message, 'ok'); msg.innerHTML = '<div class="ok">Submitted — check your email within the hour.</div>'; loadPaySubmissions(); }
+    else msg.innerHTML = '<div class="err">' + res.error + '</div>';
+  });
+
+  loadPaySubmissions();
+}
+
+async function loadPaySubmissions() {
+  const host = document.getElementById('paySubmissions');
+  if (!host) return;
+  const res = await apiCall('getPaymentSubmissions', {});
+  if (!res.ok) { host.innerHTML = '<p class="muted">Could not load submission history.</p>'; return; }
+  if (!res.submissions.length) { host.innerHTML = '<p class="muted">No submissions yet.</p>'; return; }
+  host.innerHTML = `<table><thead><tr><th>Plan</th><th>Status</th><th>Submitted</th><th>Decided</th></tr></thead><tbody>
+    ${res.submissions.map(s => `<tr>
+      <td>${s.plan}</td>
+      <td><span class="badge ${s.status === 'confirmed' ? 'active' : (s.status === 'rejected' ? 'suspended' : '')}" style="${s.status === 'pending' ? 'background:#fbeecb;color:#8a6710' : ''}">${s.status}</span></td>
+      <td class="muted">${new Date(s.submittedAt).toLocaleString()}</td>
+      <td class="muted">${s.decidedAt ? new Date(s.decidedAt).toLocaleString() : '—'}</td>
+    </tr>`).join('')}
+  </tbody></table>`;
+}
+
+// =====================================================================
+// MESSAGES — internal team chat (everyone) + customer/supplier messaging (permitted roles)
+// =====================================================================
+
+const renderSubscriptionSection = renderSubscriptionTab;
+
+// ---- Manual sections catalog. `key` values are what ROLE_SECTION_MAP below references. ----
+const MANUAL_SECTION_CATALOG = {
+  core: { title: 'Getting started', body: 'Install the app from the link your admin shares (or from your browser\'s Install/Add to Home Screen option). Log in with your email and password. The app works offline — anything you add is saved instantly and syncs automatically once you\'re back online, or tap Sync now any time.' },
+  products: { title: 'Products', body: 'Add products with a name, barcode, unit and price. A photo is optional. Edit or delete a product any time from the Products tab.' },
+  scan: { title: 'Scanning barcodes', body: 'Use a USB/Bluetooth barcode scanner (it types into the box, then press Enter) or your device camera. A new barcode opens a popup to set its price and save it as a product; an existing barcode opens a popup to confirm or edit the price.' },
+  pos: { title: 'Point of sale', body: 'Scan a product at checkout, adjust quantity/unit/price paid if needed, and add it to the cart. Complete Sale saves the transaction and opens a receipt you can download or print.' },
+  records: { title: 'Records & receipts', body: 'Every sale, expense, purchase and income entry is timestamped and listed under Records, with a printable receipt showing when it was created and last updated.' },
+  debts: { title: 'Debts & credit', body: 'The Debts/Credit tab lists every sale or purchase with an outstanding balance. Record Payment updates the balance and automatically creates the matching receipt/payment record.' },
+  reports: { title: 'Insights & reports', body: 'The Insights & Reports tab shows revenue, expenses and net profit for a chosen period (daily/weekly/monthly/quarterly/yearly), with charts and top products/customers — downloadable as CSV or printable/saveable as PDF.' },
+  messages: { title: 'Messaging', dynamic: true },
+  team: { title: 'Managing your team', body: 'Create team members and assign roles (Cashier, Inventory/Store Officer, Purchasing Officer, Accountant/Finance Officer, Auditor/Report Viewer, Business Manager, and more). Edit a user\'s email or roles, set their password directly, activate/suspend their access, or delete their account at any time.' },
+  invite: { title: 'Inviting your team', body: 'Share your organization\'s install link from the Invite link tab — it shows install instructions only, with no login shown until the app is installed, then goes straight to the login screen.' },
+  subscription: { title: 'Subscription & upgrading', body: 'Your Subscription tab shows your plan, start date, due date, and time remaining. To upgrade or renew: pay to the account shown, then submit the form with your payment screenshot. You\'ll get a confirmation email within the hour, and your dashboard updates automatically once confirmed.' },
+  settings: { title: 'Business settings', body: 'Set your business name, logo, currency, address and receipt footer note — this appears on every printed receipt, invoice and report across the whole system.' },
+  backup: { title: 'Backup & restore', body: 'Download a full backup of every record in the system as JSON (restorable) or CSV (for Excel/accountants), and restore from a JSON backup if you ever need to.' }
+};
+const ROLE_SECTION_MAP = {
+  'Business Owner / Super Admin': ['products', 'scan', 'pos', 'records', 'debts', 'reports'],
+  'Business Manager': ['products', 'scan', 'pos', 'records', 'debts', 'reports'],
+  'Sales / POS Officer': ['scan', 'pos', 'records'],
+  'Inventory / Store Officer': ['products', 'scan', 'records'],
+  'Purchasing Officer': ['products', 'records'],
+  'Accountant / Finance Officer': ['records', 'debts', 'reports'],
+  'Cashier': ['pos', 'scan'],
+  'Auditor / Report Viewer': ['records', 'debts', 'reports']
+};
+const ADMIN_ONLY_MANUAL_SECTIONS = ['team', 'invite', 'subscription', 'settings', 'backup'];
+const UNIVERSAL_MANUAL_SECTIONS = ['core', 'messages'];
+
+function renderManualTab() {
+  const host = document.getElementById('panelHost');
+  const isAdmin = session.isAdmin;
+  const roles = session.roles || [];
+  const tier = (lastSubscription && lastSubscription.plan) ? lastSubscription.plan.split(' · ')[0] : 'Starter';
+
+  let sectionKeys;
+  if (isAdmin) {
+    sectionKeys = Object.keys(MANUAL_SECTION_CATALOG);
+  } else if (!roles.length) {
+    sectionKeys = Object.keys(MANUAL_SECTION_CATALOG).filter(k => ADMIN_ONLY_MANUAL_SECTIONS.indexOf(k) === -1);
+  } else {
+    const fromRoles = new Set();
+    roles.forEach(r => (ROLE_SECTION_MAP[r] || []).forEach(k => fromRoles.add(k)));
+    UNIVERSAL_MANUAL_SECTIONS.forEach(k => fromRoles.add(k));
+    sectionKeys = Array.from(fromRoles);
+  }
+  const orderedKeys = Object.keys(MANUAL_SECTION_CATALOG).filter(k => sectionKeys.indexOf(k) !== -1);
+  const visible = orderedKeys.map(k => {
+    const s = MANUAL_SECTION_CATALOG[k];
+    const body = k === 'messages'
+      ? 'Team chat lets you message anyone in your organization, or broadcast to everyone. ' + (canMessageCustomers() ? 'You can also message customers and suppliers by email or WhatsApp from the Messages tab.' : 'Messaging customers/suppliers is limited to admins, managers, sales and accounting roles.')
+      : s.body;
+    return { title: s.title, body };
+  });
+
+  const roleLabel = isAdmin ? 'Admin (full access)' : (roles.length ? roles.join(', ') : 'No role assigned yet — showing the full operational manual');
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Your user manual</h3>
+      <p class="muted">Shown for your <strong>${tier}</strong> plan and your role: <strong>${roleLabel}</strong>. This is tailored to what you actually use — ask your admin to assign a role if this looks too broad or too narrow. Download a copy to keep or share with new team members.</p>
+      <button class="btn-gold" id="downloadManual">Download manual (.txt)</button>
+    </div>
+    ${visible.map(s => `<div class="card" style="margin-bottom:14px"><h3 style="margin-top:0">${s.title}</h3><p class="muted" style="margin:0">${s.body}</p></div>`).join('')}`;
+
+  document.getElementById('downloadManual').addEventListener('click', () => {
+    const lines = ['OKV Business Management System — User Manual', 'Plan: ' + tier, 'Role: ' + roleLabel, ''];
+    visible.forEach(s => { lines.push(s.title.toUpperCase()); lines.push(s.body); lines.push(''); });
+    lines.push('Support: ' + SUPPORT_EMAIL + ' · ' + SUPPORT_PHONE + ' · ' + SUPPORT_WEBSITE);
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'okv-biztrack-manual.txt';
+    a.click();
+  });
+}
+
+const renderManualSection = renderManualTab;
+
+function renderAccountTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:20px">
+      <h3 style="margin-top:0">Your account</h3>
+      <p><strong>${session.username}</strong> ${session.isAdmin ? '<span class="pill">Admin</span>' : ''}</p>
+      <p class="muted">${session.email || ''}</p>
+      ${session.roles && session.roles.length ? session.roles.map(r => `<span class="pill">${r}</span>`).join('') : ''}
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Change password</h3>
+      <label>Current password</label><input type="password" id="cpCurrent">
+      <label>New password</label><input type="password" id="cpNew" minlength="6">
+      <button class="btn-primary" id="cpSave">Update password</button>
+      <div id="cpMsg"></div>
+    </div>`;
+
+  document.getElementById('cpSave').addEventListener('click', async () => {
+    const msg = document.getElementById('cpMsg');
+    const cur = document.getElementById('cpCurrent').value;
+    const nw = document.getElementById('cpNew').value;
+    if (!cur || !nw || nw.length < 6) { msg.innerHTML = '<div class="err">Fill both fields (min 6 characters).</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to change your password.</div>'; return; }
+    const currentPasswordHash = await sha256Hex(cur);
+    const newPasswordHash = await sha256Hex(nw);
+    const r = await apiCall('changePassword', { currentPasswordHash, newPasswordHash });
+    msg.innerHTML = r.ok ? '<div class="ok">Password updated.</div>' : '<div class="err">' + r.error + '</div>';
+  });
+}
+
+const renderAccountSection = renderAccountTab;
+
+// ---- subscription banner + bell, ported from the old topbar ----
+let NEAR_DUE_DAYS = 3;
+let lastSubscription = null;
+async function checkSubscription() {
+  if (!session.isAdmin) return;
+  document.getElementById('upgradeBtn').style.display = 'inline-flex';
+  if (!navigator.onLine) return;
+  const res = await apiCall('getSubscriptionStatus', {});
+  if (!res.ok) return;
+  lastSubscription = res.subscription;
+  const s = lastSubscription;
+  const isTrial = s.billingState === 'trial';
+  const nearOrDue = s.expired || !s.active || (s.daysLeft !== null && s.daysLeft <= NEAR_DUE_DAYS);
+  const banner = document.getElementById('trialBanner');
+  if (s.expired || !s.active) {
+    banner.innerHTML = isTrial ? `<strong class="text-danger">Trial ended.</strong> <a href="#" id="bannerSubLink">Upgrade →</a>` : `<strong class="text-danger">Subscription expired.</strong> <a href="#" id="bannerSubLink">Renew now →</a>`;
+  } else if (isTrial) {
+    banner.innerHTML = `<strong>Free trial:</strong> ${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left on the <strong>${planDisplayName(s.plan)}</strong> plan. <a href="#" id="bannerSubLink">Upgrade →</a>`;
+  } else if (s.daysLeft !== null && s.daysLeft <= NEAR_DUE_DAYS) {
+    banner.innerHTML = `<strong>Due soon</strong> — ${s.daysLeft} day${s.daysLeft === 1 ? '' : 's'} left. <a href="#" id="bannerSubLink">Renewal guidelines →</a>`;
+  } else {
+    banner.innerHTML = '';
+  }
+  const link = document.getElementById('bannerSubLink');
+  if (link) link.addEventListener('click', (e) => { e.preventDefault(); navigateTo('subscription'); });
+}
+document.getElementById('upgradeBtn').addEventListener('click', () => navigateTo('subscription'));
+loadLiveSettings().then(() => { NEAR_DUE_DAYS = REMINDER_DAYS_BEFORE_DUE; checkSubscription(); if (activeSection === 'subscription' || activeSection === 'manual') refreshCurrentSection(); });
+checkSubscription();
+setInterval(checkSubscription, 5 * 60000);
+
+// ---- kick everything off ----
+refreshCurrentSection();
+</script>
+</body>
+</html>

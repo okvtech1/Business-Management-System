@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Super Admin — OKV Business Management System</title>
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#16223d">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --ink:#25272b;
+  --paper:#f6f4ee;
+  --card:#ffffff;
+  --teal:#16223d;
+  --teal-2:#1e2f52;
+  --gold:#c69a3d;
+  --line:#e3ddce;
+  --danger:#a4372f;
+  --ok:#2f6d4f;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif; line-height:1.45;
+}
+h1,h2,h3,.display{ font-family:'Fraunces',serif; letter-spacing:-.01em; }
+.wrap{ max-width:460px; margin:0 auto; padding:32px 20px 60px; }
+.wrap.wide{ max-width:960px; }
+.brand{ display:flex; align-items:center; gap:10px; margin-bottom:28px; }
+.brand .mark{ width:38px;height:38px;border-radius:10px;background:var(--teal);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:800;font-size:16px; }
+.brand .name{ font-family:'Fraunces'; font-weight:700; font-size:15px; }
+.brand .name small{ display:block; font-family:'Inter'; font-weight:400; font-size:11px; color:#6b6455; }
+
+.card{ background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:26px; }
+label{ display:block; font-size:13px; font-weight:600; margin:14px 0 6px; }
+input[type=text],input[type=password],input[type=email],select,textarea{
+  width:100%; padding:11px 12px; border:1px solid var(--line); border-radius:10px;
+  font-size:15px; font-family:inherit; background:#fff; color:var(--ink);
+}
+input:focus,select:focus,textarea:focus{ outline:2px solid var(--gold); outline-offset:1px; border-color:var(--gold); }
+button, .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; border-radius:10px; padding:12px 18px; font-size:14px; font-weight:600;
+  cursor:pointer; font-family:'Inter'; text-decoration:none;
+}
+.btn-primary{ background:var(--teal); color:#fff; width:100%; margin-top:18px; }
+.btn-primary:hover{ background:var(--teal-2); }
+.btn-gold{ background:var(--gold); color:#fff; }
+.btn-outline{ background:transparent; border:1px solid var(--line); color:var(--ink); }
+.btn-danger{ background:var(--danger); color:#fff; }
+.btn-sm{ padding:7px 12px; font-size:12.5px; }
+a{ color:var(--teal-2); }
+.muted{ color:#736b5a; font-size:13px; }
+.row{ display:flex; gap:10px; flex-wrap:wrap; }
+.row > *{ flex:1; min-width:0; }
+.center{ text-align:center; }
+.divider{ height:1px; background:var(--line); margin:20px 0; }
+.badge{ display:inline-block; padding:3px 9px; border-radius:20px; font-size:11.5px; font-weight:600; }
+.badge.active{ background:#e2f3ea; color:var(--ok); }
+.badge.suspended{ background:#f7e3df; color:var(--danger); }
+.pill{ display:inline-block; padding:3px 9px; border-radius:20px; font-size:11px; background:#eef0e6; color:#3f4636; margin:2px 3px 0 0; }
+table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+th,td{ text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+th{ font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:#736b5a; }
+.table-scroll{ overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0 -4px; padding:0 4px; }
+.table-scroll table{ min-width:520px; }
+img{ max-width:100%; }
+.topbar{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:14px 16px; background:var(--teal); color:#fff; }
+.topbar .name{ font-family:'Fraunces'; font-weight:700; font-size:15px; }
+.topbar .row{ flex-wrap:wrap; justify-content:flex-end; flex-direction:row; min-width:0; }
+#whoami{ min-width:0; }
+@media (max-width:860px){
+  #whoami{ flex:1 1 100%; }
+}
+.tabs{ display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch; padding:12px 16px 0; background:var(--teal); }
+.tabs button{ background:rgba(255,255,255,.1); color:#fff; padding:9px 14px; border-radius:9px 9px 0 0; font-size:13px; white-space:nowrap; flex:none; }
+.tabs button.active{ background:var(--paper); color:var(--ink); }
+.panel{ padding:18px 16px 40px; }
+.sync-strip{ display:flex; align-items:center; gap:10px; font-size:12.5px; padding:8px 16px; background:#fff; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+.dot{ width:8px;height:8px;border-radius:50%; flex:none; }
+.dot.on{ background:var(--ok); } .dot.off{ background:var(--danger); }
+.install-steps li{ margin-bottom:10px; }
+.link-box{ background:#f2f0e7; border:1px dashed var(--line); border-radius:10px; padding:10px 12px; font-size:13px; word-break:break-all; }
+.err{ color:var(--danger); font-size:13px; margin-top:8px; }
+.ok{ color:var(--ok); font-size:13px; margin-top:8px; }
+.modal-backdrop{ position:fixed; inset:0; background:rgba(19,37,35,.5); z-index:100; display:flex; align-items:center; justify-content:center; padding:20px; overflow-y:auto; }
+.modal-card{ background:var(--card); border-radius:var(--radius); padding:24px; width:100%; max-width:420px; max-height:86vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,.35); margin:auto; }
+@media (max-width:640px){
+  .card{ padding:18px; }
+  .wrap{ padding:22px 14px 50px; }
+  h1{ font-size:26px; } h2{ font-size:22px; } h3{ font-size:17px; }
+  .row{ flex-direction:column; }
+}
+
+.superadmin-table td, .superadmin-table th{ vertical-align: middle; }
+</style>
+<style>
+.okv-pw-wrap{position:relative;display:block}
+.okv-pw-wrap input{padding-right:40px !important}
+.okv-pw-toggle{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;padding:6px;margin:0;cursor:pointer;color:#8a8578;display:flex;align-items:center;justify-content:center;border-radius:8px;line-height:0}
+.okv-pw-toggle:hover{background:rgba(0,0,0,.06);color:var(--ink)}
+</style>
+<script>
+// Adds a show/hide eye icon to EVERY password input on this page, including ones added
+// later by JS (modals, dynamically-rendered forms) — no per-form wiring needed elsewhere.
+(function(){
+  function eyeSvg(hidden){
+    return hidden
+      ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-3.22 4.44M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+      : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  }
+  function wire(inp){
+    if (!inp || inp.dataset.pwWired) return;
+    if (!inp.parentNode) return;
+    inp.dataset.pwWired = '1';
+    var wrap = document.createElement('span');
+    wrap.className = 'okv-pw-wrap';
+    inp.parentNode.insertBefore(wrap, inp);
+    wrap.appendChild(inp);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'okv-pw-toggle';
+    btn.tabIndex = -1;
+    btn.setAttribute('aria-label', 'Show password');
+    btn.innerHTML = eyeSvg(false);
+    btn.addEventListener('click', function(){
+      var showing = inp.type === 'text';
+      inp.type = showing ? 'password' : 'text';
+      btn.innerHTML = eyeSvg(!showing);
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+    wrap.appendChild(btn);
+  }
+  function scan(root){
+    (root || document).querySelectorAll('input[type="password"]').forEach(wire);
+  }
+  document.addEventListener('DOMContentLoaded', function(){ scan(document); });
+  scan(document);
+  new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      m.addedNodes && m.addedNodes.forEach(function(n){
+        if (!n || n.nodeType !== 1) return;
+        if (n.matches && n.matches('input[type="password"]')) wire(n);
+        if (n.querySelectorAll) scan(n);
+      });
+    });
+  }).observe(document.documentElement, { childList: true, subtree: true });
+})();
+</script>
+
+</head>
+<body>
+<div class="topbar">
+  <div class="name" id="orgName">OKV Technology Consults — Super Admin</div>
+  <div class="row" style="gap:10px;align-items:center">
+    <span class="muted" style="color:#cfe3dd" id="whoami"></span>
+    <button class="btn-outline btn-sm" style="background:#fff" id="logoutBtn">Log out</button>
+  </div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="wrap wide panel" id="panelHost"></div>
+
+<script src="app-common.js"></script>
+<script>
+// ===== Super Admin dashboard =====
+const session = requireSession('login.html');
+if (!session.isSuperAdmin) window.location.href = 'dashboard.html';
+
+document.getElementById('whoami').textContent = session.username;
+document.getElementById('logoutBtn').addEventListener('click', () => { clearSession(); window.location.href = 'login.html'; });
+
+const TABS = [['orgs', 'Organizations'], ['storage', 'Storage'], ['payments', 'Payments'], ['announce', 'Announcements'], ['settings', 'Settings'], ['manual', 'User Manual'], ['account', 'Account']];
+let activeTab = 'orgs';
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = TABS.map(([id, label]) =>
+    `<button data-tab="${id}" class="${id === activeTab ? 'active' : ''}">${label}</button>`).join('');
+  document.querySelectorAll('#tabs button').forEach(b => b.addEventListener('click', () => { activeTab = b.dataset.tab; renderTabs(); refreshTab(); }));
+}
+function refreshTab() {
+  if (activeTab === 'orgs') renderOrgsTab();
+  else if (activeTab === 'storage') renderStorageTab();
+  else if (activeTab === 'payments') renderPaymentsTab();
+  else if (activeTab === 'announce') renderAnnounceTab();
+  else if (activeTab === 'settings') renderSettingsTab();
+  else if (activeTab === 'manual') renderManualTab();
+  else renderAccountTab();
+}
+renderTabs();
+refreshTab();
+// Keeps PLAN_CATALOG (used by the Edit-org modal's Plan dropdown) and branding in sync with
+// any customizations saved from the Settings tab, instead of staying on hardcoded defaults for
+// the whole session. Fire-and-forget, no re-render needed: the Organizations list itself never
+// reads PLAN_CATALOG — only the Edit modal does, opened later by a click, well after this resolves.
+loadLiveSettings();
+
+// Auto-refreshes the two tabs where new activity shows up from other people (new
+// organizations signing up, new payment proofs submitted) so the numbers update live without
+// requiring a manual click away and back. Deliberately excludes Storage/Announcements/Settings/
+// Account — those hold in-progress form input or a compose box that a background refresh would
+// wipe out mid-edit.
+setInterval(() => { if (activeTab === 'orgs' || activeTab === 'payments') refreshTab(); }, 30000);
+
+// =====================================================================
+// ORGANIZATIONS — list, edit contact/subscription, suspend/reactivate
+// =====================================================================
+let lastOrgs = [];
+async function renderOrgsTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = '<p class="muted">Loading organizations…</p>';
+  const res = await apiCall('superAdminListOrgs', {});
+  if (!res.ok) { host.innerHTML = '<p class="err">' + res.error + '</p>'; return; }
+  lastOrgs = res.orgs;
+  const signupLink = window.location.origin + window.location.pathname.replace('super-admin.html', 'pricing.html');
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Share to onboard a new organization</h3>
+      <p class="muted">Send this link to a prospective business — it opens the pricing page, and "Start for free" carries them through signup, install, then login on their own.</p>
+      <div class="link-box" id="signupLink">${signupLink}</div>
+      <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+        <button class="btn-primary" style="margin-top:0" id="copySignupLink">Copy link</button>
+        <a class="btn-outline btn-sm" style="margin-top:0" target="_blank" href="${signupLink}">Open link</a>
+        <button class="btn-outline btn-sm" style="margin-top:0;display:none" id="shareSignupLink">Share…</button>
+      </div>
+      <div id="signupLinkMsg" class="muted" style="margin-top:6px;font-size:12.5px"></div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Organizations</h3>
+      <p class="muted">${res.orgs.length} organization${res.orgs.length === 1 ? '' : 's'} — manage contact details, plan, and access without opening the Sheet.</p>
+    </div>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Business</th><th>Admin</th><th>Team</th><th>Plan</th><th>Status</th><th></th></tr></thead>
+      <tbody>${res.orgs.map(o => `<tr>
+        <td><strong>${escapeHtml(o.businessName) || '(no name)'}</strong><br><span class="muted" style="font-size:11px">Since ${new Date(o.createdAt).toLocaleDateString()}</span></td>
+        <td>${escapeHtml(o.fullName)}<br><span class="muted" style="font-size:11px">${escapeHtml(o.email)}${o.phone ? ' · ' + escapeHtml(o.phone) : ''}</span></td>
+        <td>${o.teamCount}</td>
+        <td>${planDisplayName(o.subscription.plan)}<br><span class="muted" style="font-size:11px">${friendlyDuration(o.subscription.daysLeft)}</span></td>
+        <td>${o.orgSuspended ? '<span class="badge suspended">Suspended</span>' : (o.subscription.active ? '<span class="badge active">Active</span>' : '<span class="badge suspended">Inactive</span>')}</td>
+        <td>
+          <div class="row" style="gap:6px;flex-wrap:wrap">
+            <button class="btn-outline btn-sm" data-edit="${o.userId}">Edit</button>
+            <button class="btn-outline btn-sm" data-toggle="${o.userId}" data-current="${o.orgSuspended}">${o.orgSuspended ? 'Reactivate' : 'Suspend'}</button>
+          </div>
+        </td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+
+  if (navigator.share) document.getElementById('shareSignupLink').style.display = 'inline-block';
+  document.getElementById('copySignupLink').addEventListener('click', async () => {
+    const msgEl = document.getElementById('signupLinkMsg');
+    msgEl.textContent = '';
+    try {
+      if (!navigator.clipboard || !window.isSecureContext) throw new Error('clipboard unavailable');
+      await navigator.clipboard.writeText(signupLink);
+      toast('Link copied', 'ok');
+    } catch (e) {
+      const box = document.getElementById('signupLink');
+      try {
+        const range = document.createRange();
+        range.selectNodeContents(box);
+        const sel = window.getSelection();
+        sel.removeAllRanges(); sel.addRange(range);
+      } catch (e2) { /* selection API unavailable — the visible link text is still there to copy by hand */ }
+      msgEl.textContent = "Couldn't copy automatically — the link above is now selected, press Ctrl+C (or Cmd+C) to copy it.";
+    }
+  });
+  if (navigator.share) {
+    document.getElementById('shareSignupLink').addEventListener('click', () => {
+      navigator.share({ title: 'Get started', text: 'Sign up here:', url: signupLink }).catch(() => { /* user cancelled the share sheet — not an error */ });
+    });
+  }
+
+  document.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => openEditOrg(b.dataset.edit)));
+  document.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', async () => {
+    const suspend = b.dataset.current !== 'true';
+    if (suspend && !confirm('Suspend this organization? Every user in it will be locked out immediately.')) return;
+    const r = await apiCall('superAdminSetOrgSuspended', { userId: b.dataset.toggle, suspended: suspend });
+    if (r.ok) { toast(r.message, 'ok'); renderOrgsTab(); } else toast(r.error, 'error');
+  }));
+}
+
+// =====================================================================
+// STORAGE — per-tenant Google Sheets cell-capacity monitoring (Super Admin only;
+// org Admins/Users never see this). Data is refreshed by a weekly trigger; the
+// "Check now" button lets the Super Admin force an immediate refresh.
+// =====================================================================
+function statusBadgeClass(flag) {
+  if (flag === 'Action Needed') return 'suspended';
+  if (flag === 'Monitor') return 'suspended'; // reuse existing badge colors; Monitor gets its own inline color below
+  return 'active';
+}
+async function renderStorageTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = '<p class="muted">Loading storage usage…</p>';
+  const res = await apiCall('superAdminGetCapacity', {});
+  if (!res.ok) { host.innerHTML = '<p class="err">' + res.error + '</p>'; return; }
+  renderStorageList(res.orgs);
+}
+function renderStorageList(orgs) {
+  const host = document.getElementById('panelHost');
+  const flagCounts = { Healthy: 0, Monitor: 0, 'Action Needed': 0 };
+  orgs.forEach(o => { flagCounts[o.statusFlag] = (flagCounts[o.statusFlag] || 0) + 1; });
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Storage — per-tenant Sheets capacity</h3>
+      <p class="muted">Each organization has its own spreadsheet with a hard 10,000,000-cell limit. Refreshed automatically on a weekly schedule.</p>
+      <div class="row" style="margin-top:10px;flex-wrap:wrap">
+        <span class="badge active">${flagCounts['Healthy'] || 0} Healthy</span>
+        <span class="badge" style="background:#fbeecd;color:#8a5b0f">${flagCounts['Monitor'] || 0} Monitor</span>
+        <span class="badge suspended">${flagCounts['Action Needed'] || 0} Action Needed</span>
+      </div>
+      <button class="btn-outline btn-sm" id="storageRefreshBtn" style="margin-top:14px">Check now</button>
+    </div>
+    ${orgs.length === 0 ? '<p class="muted">No tenant spreadsheets registered yet.</p>' : `
+    <div class="table-scroll"><table>
+      <thead><tr><th>Business</th><th>Used</th><th>Est. time to 90%</th><th>Status</th><th></th></tr></thead>
+      <tbody>${orgs.map(o => `<tr>
+        <td><strong>${escapeHtml(o.businessName) || '(no name)'}</strong>${o.lastCheckedAt ? '<br><span class="muted" style="font-size:11px">Checked ' + new Date(o.lastCheckedAt).toLocaleString() + '</span>' : '<br><span class="muted" style="font-size:11px">Not checked yet</span>'}</td>
+        <td>${(o.pctUsed * 100).toFixed(1)}%<br><span class="muted" style="font-size:11px">${o.cellsUsed.toLocaleString()} / ${o.cellLimit.toLocaleString()} cells</span></td>
+        <td>${o.estReadableRemaining || '—'}</td>
+        <td><span class="badge ${o.statusFlag === 'Healthy' ? 'active' : (o.statusFlag === 'Monitor' ? '' : 'suspended')}" ${o.statusFlag === 'Monitor' ? 'style="background:#fbeecd;color:#8a5b0f"' : ''}>${o.statusFlag}</span>
+        ${o.recommendedAction && o.statusFlag !== 'Healthy' ? '<br><span class="muted" style="font-size:11px">' + escapeHtml(o.recommendedAction) + '</span>' : ''}</td>
+        <td>${o.spreadsheetUrl ? '<a href="' + o.spreadsheetUrl + '" target="_blank" class="btn-outline btn-sm">Open sheet</a>' : ''}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`}`;
+
+  document.getElementById('storageRefreshBtn').addEventListener('click', async () => {
+    const btn = document.getElementById('storageRefreshBtn');
+    btn.disabled = true; btn.textContent = 'Checking…';
+    const r = await apiCall('superAdminRunCapacityCheckNow', {});
+    btn.disabled = false; btn.textContent = 'Check now';
+    if (r.ok) { toast('Storage usage refreshed', 'ok'); renderStorageList(r.orgs); } else toast(r.error, 'error');
+  });
+}
+
+function openEditOrg(userId) {
+  const o = lastOrgs.find(x => x.userId === userId);
+  const modal = openModal(`
+    <h3 style="margin-top:0">Edit — ${escapeHtml(o.businessName)}</h3>
+    <label>Business name</label><input id="eoBusiness" value="${escapeHtml(o.businessName) || ''}">
+    <label>Full name</label><input id="eoFullName" value="${escapeHtml(o.fullName) || ''}">
+    <label>Email</label><input id="eoEmail" type="email" value="${escapeHtml(o.email) || ''}">
+    <label>Phone</label><input id="eoPhone" value="${escapeHtml(o.phone) || ''}">
+    <div class="divider"></div>
+    <label>Plan</label>
+    <select id="eoPlan">${PLAN_CATALOG.map(p => `<option value="${p.tier} · ${p.cycle}" ${o.subscription.plan === (p.tier + ' · ' + p.cycle) ? 'selected' : ''}>${p.tier} · ${p.cycle}</option>`).join('')}</select>
+    <label>Billing state</label>
+    <select id="eoBilling"><option value="trial" ${o.subscription.billingState === 'trial' ? 'selected' : ''}>Trial</option><option value="paid" ${o.subscription.billingState === 'paid' ? 'selected' : ''}>Paid</option></select>
+    <label>Subscription status</label>
+    <select id="eoSubStatus"><option value="active" ${o.subscription.active ? 'selected' : ''}>Active</option><option value="inactive">Inactive</option></select>
+    <label>Expiry date</label>
+    <input id="eoExpiry" type="date" value="${o.subscription.expiry ? new Date(o.subscription.expiry).toISOString().slice(0, 10) : ''}">
+    <div class="row"><button class="btn-outline" id="eoCancel">Cancel</button><button class="btn-primary" id="eoSave" style="margin-top:0">Save</button></div>
+    <div id="eoMsg"></div>`);
+  modal.querySelector('#eoCancel').addEventListener('click', () => closeModal(modal));
+  modal.querySelector('#eoSave').addEventListener('click', async () => {
+    const expiryVal = modal.querySelector('#eoExpiry').value;
+    const r = await apiCall('superAdminUpdateOrg', {
+      userId,
+      businessName: modal.querySelector('#eoBusiness').value.trim(),
+      fullName: modal.querySelector('#eoFullName').value.trim(),
+      email: modal.querySelector('#eoEmail').value.trim(),
+      phone: modal.querySelector('#eoPhone').value.trim(),
+      subscriptionPlan: modal.querySelector('#eoPlan').value,
+      billingState: modal.querySelector('#eoBilling').value,
+      subscriptionStatus: modal.querySelector('#eoSubStatus').value,
+      subscriptionExpiry: expiryVal ? new Date(expiryVal + 'T23:59:59').toISOString() : undefined
+    });
+    if (r.ok) { toast('Organization updated', 'ok'); closeModal(modal); renderOrgsTab(); } else modal.querySelector('#eoMsg').innerHTML = '<div class="err">' + r.error + '</div>';
+  });
+}
+
+// =====================================================================
+// PAYMENTS — every org's submissions, confirm/reject in one click
+// =====================================================================
+async function renderPaymentsTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = '<p class="muted">Loading payment submissions…</p>';
+  const res = await apiCall('superAdminListPayments', {});
+  if (!res.ok) { host.innerHTML = '<p class="err">' + res.error + '</p>'; return; }
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Payment submissions</h3>
+      <p class="muted">Confirm or reject a payment here instead of editing the Sheet — the org admin is emailed automatically either way, and confirming extends their subscription right away.</p>
+    </div>
+    <div class="table-scroll"><table>
+      <thead><tr><th>Business</th><th>Plan</th><th>Proof</th><th>Status</th><th>Submitted</th><th></th></tr></thead>
+      <tbody>${res.submissions.map(s => `<tr>
+        <td><strong>${escapeHtml(s.businessName)}</strong><br><span class="muted" style="font-size:11px">${escapeHtml(s.email)}${s.phone ? ' · ' + escapeHtml(s.phone) : ''}</span></td>
+        <td>${escapeHtml(s.plan)}</td>
+        <td>${s.screenshotDataUrl ? `<a href="${s.screenshotDataUrl}" target="_blank">View</a>` : '<span class="muted">None</span>'}</td>
+        <td><span class="badge ${s.status === 'confirmed' ? 'active' : (s.status === 'rejected' ? 'suspended' : '')}" style="${s.status === 'pending' ? 'background:#fbeecb;color:#8a6710' : ''}">${s.status}</span></td>
+        <td class="muted">${new Date(s.submittedAt).toLocaleString()}</td>
+        <td>${s.status === 'pending' ? `<div class="row" style="gap:6px;flex-wrap:wrap">
+            <button class="btn-primary btn-sm" style="margin-top:0" data-decide="${s.row}" data-status="confirmed">Confirm</button>
+            <button class="btn-danger btn-sm" data-decide="${s.row}" data-status="rejected">Reject</button>
+          </div>` : '<span class="muted">Decided</span>'}</td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
+
+  document.querySelectorAll('[data-decide]').forEach(b => b.addEventListener('click', async () => {
+    const status = b.dataset.status;
+    let note = '';
+    if (status === 'rejected') note = prompt('Optional note to include in the rejection email:') || '';
+    const r = await apiCall('superAdminDecidePayment', { row: b.dataset.decide, status, note });
+    if (r.ok) { toast('Payment ' + status, 'ok'); renderPaymentsTab(); } else toast(r.error, 'error');
+  }));
+}
+
+// =====================================================================
+// ANNOUNCEMENTS — message org admins individually or all at once
+// =====================================================================
+async function renderAnnounceTab() {
+  const host = document.getElementById('panelHost');
+  if (!lastOrgs.length) {
+    const res = await apiCall('superAdminListOrgs', {});
+    if (res.ok) lastOrgs = res.orgs;
+  }
+  host.innerHTML = `
+    <div class="card">
+      <h3 style="margin-top:0">Message organizations</h3>
+      <p class="muted">Use <code>{name}</code> for the admin's name and <code>{business}</code> for their business name to personalize.</p>
+      <label>Send to</label>
+      <select id="anRecipients" multiple size="6" style="height:auto">
+        ${lastOrgs.map(o => `<option value="${o.userId}">${o.businessName} — ${o.fullName || o.email}</option>`).join('')}
+      </select>
+      <p class="muted" style="font-size:12px;margin-top:4px">Tap/ctrl-click to select multiple, or select none to send to everyone.</p>
+      <label>Channel</label>
+      <select id="anChannel"><option value="email">Email</option><option value="whatsapp">WhatsApp</option><option value="sms">SMS</option></select>
+      <label>Subject <span class="muted">(email only)</span></label>
+      <input id="anSubject">
+      <label>Message</label>
+      <textarea id="anBody" rows="4" placeholder="Hi {name}, ..."></textarea>
+      <button class="btn-primary" id="anSend">Send</button>
+      <div id="anMsg"></div>
+    </div>`;
+
+  document.getElementById('anSend').addEventListener('click', async () => {
+    const msg = document.getElementById('anMsg');
+    const channel = document.getElementById('anChannel').value;
+    const subject = document.getElementById('anSubject').value.trim();
+    const body = document.getElementById('anBody').value.trim();
+    if (!body) { msg.innerHTML = '<div class="err">Write a message first.</div>'; return; }
+    const picked = Array.from(document.getElementById('anRecipients').selectedOptions).map(o => o.value);
+    const targets = (picked.length ? lastOrgs.filter(o => picked.indexOf(o.userId) !== -1) : lastOrgs);
+    if (!targets.length) { msg.innerHTML = '<div class="err">No organizations to send to.</div>'; return; }
+
+    if (channel === 'whatsapp') {
+      const withPhone = targets.filter(t => t.phone);
+      if (!withPhone.length) { msg.innerHTML = '<div class="err">None of the selected admins have a phone number on file.</div>'; return; }
+      if (navigator.onLine) {
+        const res = await apiCall('superAdminSendAnnouncement', { channel: 'whatsapp', body, recipients: withPhone });
+        if (res.ok) { msg.innerHTML = `<div class="ok">Sent to ${res.sent} of ${res.total}.${res.failed.length ? ' Failed: ' + res.failed.join(', ') : ''}</div>`; return; }
+      }
+      // Not configured (or offline) — fall back to one-tap wa.me links per recipient.
+      msg.innerHTML = '<p class="muted">WhatsApp isn\'t configured for automatic sending yet — tap each admin below to open their chat with your message pre-filled:</p>' +
+        withPhone.map(t => `<a class="btn btn-outline btn-sm" style="margin:4px 6px 0 0" target="_blank" href="https://wa.me/${t.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(body.replace(/\{name\}/gi, t.fullName || 'there').replace(/\{business\}/gi, t.businessName || 'your organization'))}">Send to ${t.fullName || t.businessName}</a>`).join('');
+      return;
+    }
+    if (channel === 'sms') {
+      if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to send SMS.</div>'; return; }
+      const r = await apiCall('superAdminSendAnnouncement', { channel: 'sms', body, recipients: targets });
+      msg.innerHTML = r.ok
+        ? `<div class="ok">Sent to ${r.sent} of ${r.total}.${r.failed.length ? ' Failed: ' + r.failed.join(', ') : ''}</div>`
+        : '<div class="err">' + r.error + '</div>';
+      return;
+    }
+    if (!subject) { msg.innerHTML = '<div class="err">Subject is required for email.</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to send email.</div>'; return; }
+    const res = await apiCall('superAdminSendAnnouncement', { channel: 'email', subject, body, recipients: targets });
+    if (res.ok) msg.innerHTML = `<div class="ok">Sent to ${res.sent} of ${res.total}.${res.failed.length ? ' Failed: ' + res.failed.join(', ') : ''}</div>`;
+    else msg.innerHTML = '<div class="err">' + res.error + '</div>';
+  });
+}
+
+// =====================================================================
+// SETTINGS — branding, contact, providers, payment methods/gateways, plans, tuning
+// =====================================================================
+let settingsState = null; // full settings incl. secrets, loaded once per tab visit
+
+async function renderSettingsTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = '<p class="muted">Loading settings…</p>';
+  const res = await apiCall('superAdminGetSettings', {});
+  if (!res.ok) { host.innerHTML = '<p class="err">' + res.error + '</p>'; return; }
+  settingsState = res.settings;
+  settingsState.manualPaymentMethods = settingsState.manualPaymentMethods ? JSON.parse(settingsState.manualPaymentMethods) : [];
+  settingsState.planCatalog = settingsState.planCatalog ? JSON.parse(settingsState.planCatalog) : [];
+  const s = settingsState;
+
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Contact & branding</h3>
+      <p class="muted">Shown in the landing page footer, the dashboard, and every automated email.</p>
+      <label>Support email</label><input id="stEmail" value="${s.supportEmail}">
+      <label>Support phone</label><input id="stPhone" value="${s.supportPhone}">
+      <label>Website</label><input id="stWebsite" value="${s.supportWebsite}">
+      <div class="row">
+        <div><label>Primary color</label><input id="stPrimaryColor" type="color" value="${s.brandPrimaryColor || '#16223d'}" style="height:44px;padding:4px"></div>
+        <div><label>Accent color</label><input id="stAccentColor" type="color" value="${s.brandAccentColor || '#c69a3d'}" style="height:44px;padding:4px"></div>
+      </div>
+      <label>Logo URL <span class="muted">(a hosted image link — replaces the icon everywhere)</span></label>
+      <input id="stLogoUrl" value="${s.brandLogoUrl || ''}">
+      <label>Tagline</label><input id="stTagline" value="${s.brandTagline || ''}">
+      <button class="btn-primary" id="stSaveBrand" style="margin-top:16px">Save contact & branding</button>
+      <div id="stBrandMsg"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Email, SMS &amp; WhatsApp</h3>
+      <p class="muted">Email always works (sent from your Google account). SMS/WhatsApp only send once you add a provider's credentials here.</p>
+      <p class="muted"><strong>This applies only to emails OKV Technology Consults sends to organization admins</strong> — payment confirmations, subscription reminders, password resets, and announcements. It never affects an organization's own emails to their customers/suppliers, which always carry that organization's own business name instead.</p>
+      <label>Email "from" name <span class="muted">(your management system name)</span></label><input id="stEmailFromName" value="${s.emailFromName || ''}" placeholder="OKV Business Management System">
+      <label>Email reply-to <span class="muted">(the email you use)</span></label><input id="stEmailReplyTo" value="${s.emailReplyTo || ''}" placeholder="technologyokv@gmail.com">
+      <div class="divider"></div>
+      <label>SMS provider</label><input id="stSmsProvider" value="${s.smsProvider || 'termii'}">
+      <label>SMS API key</label><input type="password" id="stSmsApiKey" value="${s.smsApiKey || ''}" placeholder="Paste your gateway API key to enable SMS">
+      <label>SMS sender ID</label><input id="stSmsSenderId" value="${s.smsSenderId || ''}">
+      <div class="divider"></div>
+      <label>WhatsApp Business API token</label><input type="password" id="stWaToken" value="${s.whatsappToken || ''}" placeholder="Meta Cloud API token to enable automatic WhatsApp">
+      <label>WhatsApp phone number ID</label><input id="stWaPhoneId" value="${s.whatsappPhoneId || ''}">
+      <button class="btn-primary" id="stSaveProviders" style="margin-top:16px">Save email/SMS/WhatsApp settings</button>
+      <div id="stProvidersMsg"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Manual payment methods</h3>
+      <p class="muted">Bank/transfer options shown on every org's Subscription tab. Add as many as you like; toggle any off without deleting it.</p>
+      <div id="paymentMethodsList"></div>
+      <button class="btn-outline" id="addPaymentMethod" style="margin-top:10px">+ Add payment method</button>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Payment gateways</h3>
+      <p class="muted">Enter keys and enable to accept card payments automatically. Only Paystack has a working checkout in this build — Flutterwave/Remita keys are stored ready for the same treatment (see README).</p>
+      <label style="display:flex;align-items:center;gap:8px;font-weight:600"><input type="checkbox" id="stPaystackEnabled" ${s.paystackEnabled ? 'checked' : ''}> Paystack enabled</label>
+      <label>Paystack public key</label><input id="stPaystackPublic" value="${s.paystackPublicKey || ''}">
+      <label>Paystack secret key</label><input type="password" id="stPaystackSecret" value="${s.paystackSecretKey || ''}" placeholder="Never shown to customers — server-side only">
+      <div class="divider"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-weight:600"><input type="checkbox" id="stFlutterwaveEnabled" ${s.flutterwaveEnabled ? 'checked' : ''}> Flutterwave enabled <span class="muted" style="font-weight:400">(keys stored, checkout not wired yet)</span></label>
+      <label>Flutterwave public key</label><input id="stFlutterwavePublic" value="${s.flutterwavePublicKey || ''}">
+      <label>Flutterwave secret key</label><input type="password" id="stFlutterwaveSecret" value="${s.flutterwaveSecretKey || ''}">
+      <div class="divider"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-weight:600"><input type="checkbox" id="stRemitaEnabled" ${s.remitaEnabled ? 'checked' : ''}> Remita enabled <span class="muted" style="font-weight:400">(keys stored, checkout not wired yet)</span></label>
+      <label>Remita merchant ID</label><input id="stRemitaMerchant" value="${s.remitaMerchantId || ''}">
+      <label>Remita API key</label><input type="password" id="stRemitaKey" value="${s.remitaApiKey || ''}">
+      <button class="btn-primary" id="stSaveGateways" style="margin-top:16px">Save gateway settings</button>
+      <div id="stGatewaysMsg"></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Pricing plans</h3>
+      <p class="muted">These are exactly what shows on the pricing page, the signup page, and every dashboard's upgrade cards.</p>
+      <div id="plansList"></div>
+      <button class="btn-outline" id="addPlan" style="margin-top:10px">+ Add plan</button>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Trial & reminders</h3>
+      <label>Free trial length (days)</label><input id="stTrialDays" type="number" min="1" value="${s.trialDays || 7}">
+      <label>Remind every (days) <span class="muted">— e.g. 15 = about twice a month</span></label><input id="stReminderInterval" type="number" min="1" value="${s.reminderIntervalDays || 15}">
+      <label>Show the dashboard's "due soon" warning this many days before due</label><input id="stReminderDaysBefore" type="number" min="0" value="${s.reminderDaysBeforeDue || 3}">
+      <button class="btn-primary" id="stSaveTuning" style="margin-top:16px">Save trial & reminder settings</button>
+      <div id="stTuningMsg"></div>
+    </div>`;
+
+  renderPaymentMethodsList();
+  renderPlansList();
+
+  document.getElementById('stSaveBrand').addEventListener('click', async () => {
+    const msg = document.getElementById('stBrandMsg');
+    const r = await apiCall('superAdminUpdateSettings', {
+      supportEmail: document.getElementById('stEmail').value.trim(),
+      supportPhone: document.getElementById('stPhone').value.trim(),
+      supportWebsite: document.getElementById('stWebsite').value.trim(),
+      brandPrimaryColor: document.getElementById('stPrimaryColor').value,
+      brandAccentColor: document.getElementById('stAccentColor').value,
+      brandLogoUrl: document.getElementById('stLogoUrl').value.trim(),
+      brandTagline: document.getElementById('stTagline').value.trim()
+    });
+    msg.innerHTML = r.ok ? '<div class="ok">Saved — live everywhere now.</div>' : '<div class="err">' + r.error + '</div>';
+    if (r.ok) loadLiveSettings().then(applyBranding);
+  });
+
+  document.getElementById('stSaveProviders').addEventListener('click', async () => {
+    const msg = document.getElementById('stProvidersMsg');
+    const r = await apiCall('superAdminUpdateSettings', {
+      emailFromName: document.getElementById('stEmailFromName').value.trim(),
+      emailReplyTo: document.getElementById('stEmailReplyTo').value.trim(),
+      smsProvider: document.getElementById('stSmsProvider').value.trim(),
+      smsApiKey: document.getElementById('stSmsApiKey').value.trim(),
+      smsSenderId: document.getElementById('stSmsSenderId').value.trim(),
+      whatsappToken: document.getElementById('stWaToken').value.trim(),
+      whatsappPhoneId: document.getElementById('stWaPhoneId').value.trim()
+    });
+    msg.innerHTML = r.ok ? '<div class="ok">Saved.</div>' : '<div class="err">' + r.error + '</div>';
+  });
+
+  document.getElementById('stSaveGateways').addEventListener('click', async () => {
+    const msg = document.getElementById('stGatewaysMsg');
+    const r = await apiCall('superAdminUpdateSettings', {
+      paystackEnabled: document.getElementById('stPaystackEnabled').checked,
+      paystackPublicKey: document.getElementById('stPaystackPublic').value.trim(),
+      paystackSecretKey: document.getElementById('stPaystackSecret').value.trim(),
+      flutterwaveEnabled: document.getElementById('stFlutterwaveEnabled').checked,
+      flutterwavePublicKey: document.getElementById('stFlutterwavePublic').value.trim(),
+      flutterwaveSecretKey: document.getElementById('stFlutterwaveSecret').value.trim(),
+      remitaEnabled: document.getElementById('stRemitaEnabled').checked,
+      remitaMerchantId: document.getElementById('stRemitaMerchant').value.trim(),
+      remitaApiKey: document.getElementById('stRemitaKey').value.trim()
+    });
+    msg.innerHTML = r.ok ? '<div class="ok">Saved.</div>' : '<div class="err">' + r.error + '</div>';
+  });
+
+  document.getElementById('stSaveTuning').addEventListener('click', async () => {
+    const msg = document.getElementById('stTuningMsg');
+    const r = await apiCall('superAdminUpdateSettings', {
+      trialDays: Number(document.getElementById('stTrialDays').value) || 7,
+      reminderIntervalDays: Number(document.getElementById('stReminderInterval').value) || 15,
+      reminderDaysBeforeDue: Number(document.getElementById('stReminderDaysBefore').value) || 3
+    });
+    msg.innerHTML = r.ok ? '<div class="ok">Saved.</div>' : '<div class="err">' + r.error + '</div>';
+  });
+
+  document.getElementById('addPaymentMethod').addEventListener('click', () => openPaymentMethodEditor(null));
+  document.getElementById('addPlan').addEventListener('click', () => openPlanEditor(null));
+}
+
+function renderPaymentMethodsList() {
+  const host = document.getElementById('paymentMethodsList');
+  const methods = settingsState.manualPaymentMethods;
+  host.innerHTML = methods.length ? methods.map((m, i) => `
+    <div class="card" style="background:#f2f0e7;margin-bottom:8px;padding:14px">
+      <div class="row" style="align-items:center">
+        <div>
+          <strong>${m.label || 'Bank transfer'}</strong> ${m.enabled ? '<span class="badge active">enabled</span>' : '<span class="badge suspended">disabled</span>'}<br>
+          <span class="muted" style="font-size:12.5px">${m.accountNumber} · ${m.bank} · ${m.accountName}</span>
+        </div>
+        <div class="row" style="flex:none;gap:6px">
+          <button class="btn-outline btn-sm" data-edit-pm="${i}">Edit</button>
+          <button class="btn-outline btn-sm" data-toggle-pm="${i}">${m.enabled ? 'Disable' : 'Enable'}</button>
+          <button class="btn-danger btn-sm" data-del-pm="${i}">Delete</button>
+        </div>
+      </div>
+    </div>`).join('') : '<p class="muted">No payment methods yet.</p>';
+
+  host.querySelectorAll('[data-edit-pm]').forEach(b => b.addEventListener('click', () => openPaymentMethodEditor(Number(b.dataset.editPm))));
+  host.querySelectorAll('[data-toggle-pm]').forEach(b => b.addEventListener('click', async () => {
+    const i = Number(b.dataset.togglePm);
+    settingsState.manualPaymentMethods[i].enabled = !settingsState.manualPaymentMethods[i].enabled;
+    await savePaymentMethods();
+  }));
+  host.querySelectorAll('[data-del-pm]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this payment method?')) return;
+    settingsState.manualPaymentMethods.splice(Number(b.dataset.delPm), 1);
+    await savePaymentMethods();
+  }));
+}
+
+function openPaymentMethodEditor(index) {
+  const isNew = index === null;
+  const m = isNew ? { id: genClientId(), label: '', bank: '', accountNumber: '', accountName: '', instructions: '', enabled: true } : settingsState.manualPaymentMethods[index];
+  const modal = openModal(`
+    <h3 style="margin-top:0">${isNew ? 'Add' : 'Edit'} payment method</h3>
+    <label>Label</label><input id="pmLabel" value="${m.label || ''}" placeholder="e.g. Bank transfer, GTBank">
+    <label>Bank</label><input id="pmBank" value="${m.bank || ''}">
+    <label>Account number</label><input id="pmAccNum" value="${m.accountNumber || ''}">
+    <label>Account name</label><input id="pmAccName" value="${m.accountName || ''}">
+    <label>Extra instructions <span class="muted">(optional)</span></label><input id="pmInstructions" value="${m.instructions || ''}">
+    <label style="display:flex;align-items:center;gap:8px;margin-top:10px"><input type="checkbox" id="pmEnabled" ${m.enabled ? 'checked' : ''}> Enabled</label>
+    <div class="row"><button class="btn-outline" id="pmCancel">Cancel</button><button class="btn-primary" id="pmSave" style="margin-top:0">Save</button></div>
+    <div id="pmMsg"></div>`);
+  modal.querySelector('#pmCancel').addEventListener('click', () => closeModal(modal));
+  modal.querySelector('#pmSave').addEventListener('click', async () => {
+    const updated = {
+      id: m.id, label: modal.querySelector('#pmLabel').value.trim(), bank: modal.querySelector('#pmBank').value.trim(),
+      accountNumber: modal.querySelector('#pmAccNum').value.trim(), accountName: modal.querySelector('#pmAccName').value.trim(),
+      instructions: modal.querySelector('#pmInstructions').value.trim(), enabled: modal.querySelector('#pmEnabled').checked
+    };
+    if (!updated.accountNumber || !updated.bank || !updated.accountName) { modal.querySelector('#pmMsg').innerHTML = '<div class="err">Bank, account number, and account name are required.</div>'; return; }
+    if (isNew) settingsState.manualPaymentMethods.push(updated); else settingsState.manualPaymentMethods[index] = updated;
+    const ok = await savePaymentMethods();
+    if (ok) closeModal(modal); else modal.querySelector('#pmMsg').innerHTML = '<div class="err">Could not save.</div>';
+  });
+}
+
+async function savePaymentMethods() {
+  const r = await apiCall('superAdminUpdateSettings', { manualPaymentMethods: JSON.stringify(settingsState.manualPaymentMethods) });
+  if (r.ok) { toast('Payment methods updated', 'ok'); renderPaymentMethodsList(); }
+  return r.ok;
+}
+
+function renderPlansList() {
+  const host = document.getElementById('plansList');
+  const plans = settingsState.planCatalog;
+  host.innerHTML = plans.length ? plans.map((p, i) => `
+    <div class="card" style="background:#f2f0e7;margin-bottom:8px;padding:14px">
+      <div class="row" style="align-items:center">
+        <div>
+          <strong>${p.tier} · ${p.cycle}</strong><br>
+          <span class="muted" style="font-size:12.5px">${p.priceLabel} · ${p.billedNote} · ₦${p.amount}</span>
+        </div>
+        <div class="row" style="flex:none;gap:6px">
+          <button class="btn-outline btn-sm" data-edit-plan="${i}">Edit</button>
+          <button class="btn-danger btn-sm" data-del-plan="${i}">Delete</button>
+        </div>
+      </div>
+    </div>`).join('') : '<p class="muted">No plans yet.</p>';
+
+  host.querySelectorAll('[data-edit-plan]').forEach(b => b.addEventListener('click', () => openPlanEditor(Number(b.dataset.editPlan))));
+  host.querySelectorAll('[data-del-plan]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this plan? Anyone currently on it keeps their access — this only removes it from new signups/renewals.')) return;
+    settingsState.planCatalog.splice(Number(b.dataset.delPlan), 1);
+    await savePlans();
+  }));
+}
+
+function openPlanEditor(index) {
+  const isNew = index === null;
+  const p = isNew ? { id: '', tier: '', cycle: 'Monthly', amount: '', priceLabel: '', billedNote: '', suited: '', features: [] } : settingsState.planCatalog[index];
+  const modal = openModal(`
+    <h3 style="margin-top:0">${isNew ? 'Add' : 'Edit'} plan</h3>
+    <div class="row">
+      <div><label>Tier name</label><input id="plTier" value="${p.tier || ''}" placeholder="Starter"></div>
+      <div><label>Billing cycle</label>
+        <select id="plCycle"><option ${p.cycle === 'Monthly' ? 'selected' : ''}>Monthly</option><option ${p.cycle === 'Bi-Annual' ? 'selected' : ''}>Bi-Annual</option><option ${p.cycle === 'Yearly' ? 'selected' : ''}>Yearly</option></select>
+      </div>
+    </div>
+    <label>Amount (₦, raw number — used for card payments)</label><input id="plAmount" type="number" value="${p.amount || ''}">
+    <label>Price label <span class="muted">(shown on the card)</span></label><input id="plPriceLabel" value="${p.priceLabel || ''}" placeholder="₦4,500/mo">
+    <label>Billed note</label><input id="plBilledNote" value="${p.billedNote || ''}" placeholder="Billed monthly">
+    <label>Best for</label><input id="plSuited" value="${p.suited || ''}">
+    <label>Features <span class="muted">(one per line)</span></label>
+    <textarea id="plFeatures" rows="4">${(p.features || []).join('\n')}</textarea>
+    <div class="row"><button class="btn-outline" id="plCancel">Cancel</button><button class="btn-primary" id="plSave" style="margin-top:0">Save</button></div>
+    <div id="plMsg"></div>`);
+  modal.querySelector('#plCancel').addEventListener('click', () => closeModal(modal));
+  modal.querySelector('#plSave').addEventListener('click', async () => {
+    const tier = modal.querySelector('#plTier').value.trim();
+    const cycle = modal.querySelector('#plCycle').value;
+    if (!tier || !modal.querySelector('#plAmount').value) { modal.querySelector('#plMsg').innerHTML = '<div class="err">Tier name and amount are required.</div>'; return; }
+    const updated = {
+      id: p.id || (tier.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + cycle.toLowerCase()),
+      tier, cycle, amount: Number(modal.querySelector('#plAmount').value),
+      priceLabel: modal.querySelector('#plPriceLabel').value.trim(), billedNote: modal.querySelector('#plBilledNote').value.trim(),
+      suited: modal.querySelector('#plSuited').value.trim(),
+      features: modal.querySelector('#plFeatures').value.split('\n').map(f => f.trim()).filter(Boolean)
+    };
+    if (isNew) settingsState.planCatalog.push(updated); else settingsState.planCatalog[index] = updated;
+    const ok = await savePlans();
+    if (ok) closeModal(modal); else modal.querySelector('#plMsg').innerHTML = '<div class="err">Could not save.</div>';
+  });
+}
+
+async function savePlans() {
+  const r = await apiCall('superAdminUpdateSettings', { planCatalog: JSON.stringify(settingsState.planCatalog) });
+  if (r.ok) { toast('Plans updated', 'ok'); renderPlansList(); }
+  return r.ok;
+}
+
+function genClientId() { return 'pm_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+// =====================================================================
+// USER MANUAL — plain-language walkthrough of every Super Admin tab,
+// downloadable as a text file. Mirrors the org-side dashboard.html /
+// demo.html manual so every dashboard in the system has one.
+// =====================================================================
+const SUPER_ADMIN_MANUAL_SECTIONS = [
+  { title: 'Organizations', body: 'Every business using the system, at a glance: their plan, team size, and whether they\'re active or suspended. "Share to onboard a new organization" at the top gives you a link to hand a prospective business — it takes them to Pricing, then Signup, then install, then login, entirely on their own. Edit updates an org\'s contact details or plan directly. Suspend immediately locks every user in that organization out; Reactivate restores access.' },
+  { title: 'Storage', body: 'Per-organization Google Sheets storage usage against the 10-million-cell limit, refreshed automatically on a schedule. Healthy means no action needed; Monitor (70%+) is worth keeping an eye on; Action Needed (85%+) means that org should be migrated to a fresh spreadsheet soon — you\'ll also get an email alert automatically when any org crosses into Action Needed.' },
+  { title: 'Payments', body: 'Payment proofs submitted by org admins when upgrading or renewing, with their screenshot attached. Confirm extends that org\'s subscription immediately and emails them; Reject emails them that it wasn\'t accepted. Both happen without you needing to open the Sheet.' },
+  { title: 'Announcements', body: 'Send a message to every org admin, or hand-pick specific ones, by email, SMS, or WhatsApp (WhatsApp falls back to one-tap pre-filled links per recipient if no WhatsApp provider is configured yet). Use this for system-wide notices, plan changes, or reminders.' },
+  { title: 'Settings', body: 'Controls what every organization sees system-wide: your logo, brand colors, contact details, payment methods (manual bank/transfer details, or automatic gateways like Paystack/Flutterwave/Remita by pasting in API keys), and pricing plans/tiers. Changes here apply live — no redeploy needed.' },
+  { title: 'Account', body: 'Change your own Super Admin password. Do this the first time you log in with the default password.' },
+  { title: 'One-click system setup', body: 'From the Google Sheet itself (not this dashboard) — open the "⚙️ OKV System Setup" menu at the top of the Master Sheet and choose "Run full setup" to create every required tab, seed the Super Admin account, and install both triggers in one click. Safe to re-run any time; it never touches existing data.' },
+];
+function renderManualTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Super Admin user manual</h3>
+      <p class="muted">A plain-language guide to every tab in this dashboard. Download a copy to keep for reference.</p>
+      <button class="btn-primary" id="downloadSaManual">Download manual (.txt)</button>
+    </div>
+    ${SUPER_ADMIN_MANUAL_SECTIONS.map(s => `<div class="card" style="margin-bottom:14px"><h3 style="margin-top:0">${s.title}</h3><p class="muted" style="margin:0">${s.body}</p></div>`).join('')}`;
+  document.getElementById('downloadSaManual').addEventListener('click', () => {
+    const lines = ['OKV Business Management System — Super Admin User Manual', ''];
+    SUPER_ADMIN_MANUAL_SECTIONS.forEach(s => { lines.push(s.title.toUpperCase()); lines.push(s.body); lines.push(''); });
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'okv-super-admin-manual.txt';
+    a.click();
+  });
+}
+
+// =====================================================================
+// ACCOUNT — change your own password
+// =====================================================================
+function renderAccountTab() {
+  const host = document.getElementById('panelHost');
+  host.innerHTML = `
+    <div class="card" style="margin-bottom:16px">
+      <h3 style="margin-top:0">Your account</h3>
+      <p><strong>${session.username}</strong> <span class="pill">Super Admin</span></p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Change password</h3>
+      <p class="muted">You're using the default password until you change it here.</p>
+      <label>Current password</label><input type="password" id="cpCurrent">
+      <label>New password</label><input type="password" id="cpNew" minlength="6">
+      <button class="btn-primary" id="cpSave">Update password</button>
+      <div id="cpMsg"></div>
+    </div>`;
+
+  document.getElementById('cpSave').addEventListener('click', async () => {
+    const msg = document.getElementById('cpMsg');
+    const cur = document.getElementById('cpCurrent').value;
+    const nw = document.getElementById('cpNew').value;
+    if (!cur || !nw || nw.length < 6) { msg.innerHTML = '<div class="err">Fill both fields (min 6 characters).</div>'; return; }
+    if (!navigator.onLine) { msg.innerHTML = '<div class="err">Reconnect to change your password.</div>'; return; }
+    const currentPasswordHash = await sha256Hex(cur);
+    const newPasswordHash = await sha256Hex(nw);
+    const r = await apiCall('changePassword', { currentPasswordHash, newPasswordHash });
+    msg.innerHTML = r.ok ? '<div class="ok">Password updated.</div>' : '<div class="err">' + r.error + '</div>';
+  });
+}
+</script>
+</body>
+</html>
