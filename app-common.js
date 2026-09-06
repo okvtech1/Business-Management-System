@@ -1,7 +1,7 @@
 // ===== OKV Business Management System — Phase 2 shared helpers =====
 
 // Paste your Apps Script Web App /exec URL here after deployment.
-const API_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxTlxkCg5m8DEgR5Vn0HBqwRNjVUvWHq5xGIH7c7yWvInjWVPGl4WHWHc7IO3FsG4ao5A/exec';
 
 // ---------- plan catalog (shared by pricing.html, signup.html, dashboard.html) ----------
 // These are only the fallback shown before loadLiveSettings() pulls the real, Super-Admin-
