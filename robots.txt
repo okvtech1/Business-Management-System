@@ -1,0 +1,29 @@
+# robots.txt for OKV Business Management System
+#
+# IMPORTANT — before this does anything useful, replace every occurrence of
+# https://YOUR-DOMAIN-HERE.com below (in this file AND in sitemap.xml) with
+# the real domain this is deployed on. See GOOGLE_INDEXING_GUIDE.md in the
+# project root for the full step-by-step walkthrough.
+
+User-agent: *
+
+# Public marketing pages — safe and encouraged to be indexed/found via search.
+Allow: /index.html
+Allow: /pricing.html
+Allow: /demo.html
+Allow: /terms.html
+Allow: /privacy.html
+Allow: /refund-policy.html
+
+# Everything else is either a private app screen (nothing to gain from being
+# indexed — the content is per-organization/behind login anyway), a page that
+# only makes sense when arrived at with a specific link/token (install,
+# reset-password), or duplicates the same content as a page above.
+Disallow: /login.html
+Disallow: /signup.html
+Disallow: /dashboard.html
+Disallow: /super-admin.html
+Disallow: /install.html
+Disallow: /reset-password.html
+
+Sitemap: https://YOUR-DOMAIN-HERE.com/sitemap.xml
